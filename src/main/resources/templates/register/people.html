@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Cadastro</title>
 </head>
 <body>
-	<h1>Hello!</h1>
+	<form action="pessoas" method="POST" th:object="${people}">
+		
+		<input type="text" placeholder="Nome" id="name" th:field="*{name}"/>
+		<button type="submit" >Cadastrar</button>
+	
+	</form>
 </body>
 </html>
