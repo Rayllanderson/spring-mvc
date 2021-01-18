@@ -1,6 +1,7 @@
 package com.rayllanderson.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -23,6 +24,10 @@ public class PeopleService {
 
     public List<People> findAll() {
 	return repository.findAll();
+    }
+    
+    public Optional<People> findById(Long id) {
+	return repository.findById(id);
     }
 
 }
