@@ -1,5 +1,7 @@
 package com.rayllanderson.services;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,10 @@ public class PeopleService {
     @Transactional
     public People save (People people) {
 	return repository.save(people);
+    }
+
+    public List<People> findAll() {
+	return repository.findAll();
     }
 
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Pessoas</title>
+<style type="text/css">
+	
+	table, th, td{
+		border: 1px solid black;
+	}
+	
+	.table{
+		margin-top: 10px;
+	}
+	
+</style>
+</head>
+<body>
+	
+	<div class="container">
+	
+		<div class="menu">
+			<a href="/">Home</a>
+		</div>
+	
+		<form method="POST" action="pessoas" class="form-people">
+			<input type="text" placeholder="Nome" id="name" name="name" />
+			<button type="submit">Cadastrar</button>
+		</form>
+	
+	
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nome</th>
+				</tr>
+			</thead>
+	
+			<tbody>
+				<tr th:each="people : ${peoples}">
+					<td th:text="${people.id}"></td>
+					<td th:text="${people.name}"></td>
+				</tr>
+			</tbody>
+		</table>
+	
+	</div>
+</body>
+</html>
