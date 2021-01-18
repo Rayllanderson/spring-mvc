@@ -65,7 +65,7 @@
 					<td th:text="${people.id}"></td>
 					<td th:text="${people.name}"></td>
 					<td> <a th:href="@{/pessoas/{id}(id=${people.id})}">Editar</a> </td>
-					<td> <a>Excluir</a> </td>
+					<td> <a th:href="@{/pessoas/delete/{id}(id=${people.id})}">Excluir</a> </td>
 				</tr>
 			</tbody>
 		</table>

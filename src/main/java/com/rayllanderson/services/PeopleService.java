@@ -29,5 +29,9 @@ public class PeopleService {
     public Optional<People> findById(Long id) {
 	return repository.findById(id);
     }
+    
+    public void deleteById(Long id) {
+	repository.deleteById(id);
+    }
 
 }

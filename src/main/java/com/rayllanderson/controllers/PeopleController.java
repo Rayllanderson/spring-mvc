@@ -16,10 +16,10 @@ import com.rayllanderson.services.PeopleService;
 @Controller
 @RequestMapping("**/pessoas")
 public class PeopleController {
-    
+
     @Autowired
     private PeopleService service;
-    
+
     @GetMapping()
     public ModelAndView listAll() {
 	ModelAndView mv = new ModelAndView("pages/people");
@@ -27,22 +27,29 @@ public class PeopleController {
 	mv.addObject("people", new People());
 	return mv;
     }
-    
+
     @PostMapping()
-    public String save(People people) {
+    public ModelAndView save(People people) {
 	service.save(people);
-	return "redirect:/pessoas";
+	return listAll();
     }
-    
+
     @GetMapping("/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
 	Optional<People> object = service.findById(id);
 	ModelAndView mv = new ModelAndView("pages/people");
 	if (object.isPresent()) {
-	   mv.addObject("people", object.get());
-	}else {
+	    mv.addObject("people", object.get());
+	} else {
 	    mv.addObject("people", new People());
 	}
 	return mv;
     }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable("id") Long id) {
+	service.deleteById(id);
+	return listAll();
+    }
+
 }
