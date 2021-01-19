@@ -1,32 +1,29 @@
 package com.rayllanderson.services;
 
-import java.util.List;
 import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rayllanderson.entities.People;
-import com.rayllanderson.repositories.PeopleRepository;
+import com.rayllanderson.entities.Telephone;
+import com.rayllanderson.repositories.TelephoneRepository;
 
 @Service
-public class PeopleService {
+public class TelephoneService {
 
     @Autowired
-    private PeopleRepository repository;
+    private TelephoneRepository repository;
 
     @Transactional
-    public People save(People people) {
+    public Telephone save(Telephone people) {
 	return repository.save(people);
     }
 
-    public List<People> findAll() {
-	return repository.findAll();
-    }
-
-    public Optional<People> findById(Long id) {
+    //@Transactional(r )
+    public Optional<Telephone> findById(Long id) {
 	return repository.findById(id);
     }
 
@@ -38,13 +35,4 @@ public class PeopleService {
 	    return false;
 	}
     }
-    
-    public List<People> findByName(String name){
-	return repository.findByNameContains(name);
-    }
-    
-    public People findPeopleWithPhones(Long peopleId) {
-	return repository.findPeoplesWithPhones(peopleId);
-    }
-
 }

@@ -1,30 +1,30 @@
 package com.rayllanderson.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
+import com.rayllanderson.entities.enums.Type;
 
 @Entity
-public class People implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Telephone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Type type;
+    private String number;
 
-    private String name;
+    public Telephone() {
+    }
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<Telephone> telephones = new ArrayList<>();
+    public Telephone(Long id, Type type, String number) {
+	super();
+	this.id = id;
+	this.type = type;
+	this.number = number;
+    }
 
     public Long getId() {
 	return id;
@@ -34,16 +34,20 @@ public class People implements Serializable {
 	this.id = id;
     }
 
-    public String getName() {
-	return name;
+    public Type getType() {
+	return type;
     }
 
-    public void setName(String name) {
-	this.name = name;
+    public void setType(Type type) {
+	this.type = type;
     }
 
-    public List<Telephone> getTelephones() {
-	return telephones;
+    public String getNumber() {
+	return number;
+    }
+
+    public void setNumber(String number) {
+	this.number = number;
     }
 
     @Override
@@ -62,7 +66,7 @@ public class People implements Serializable {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	People other = (People) obj;
+	Telephone other = (Telephone) obj;
 	if (id == null) {
 	    if (other.id != null)
 		return false;
@@ -70,5 +74,4 @@ public class People implements Serializable {
 	    return false;
 	return true;
     }
-
 }

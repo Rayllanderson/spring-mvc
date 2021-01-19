@@ -1,36 +1,35 @@
 package com.rayllanderson.controllers;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.People;
+import com.rayllanderson.entities.Telephone;
 import com.rayllanderson.services.PeopleService;
 
 @Controller
-@RequestMapping("**/pessoas")
-public class PeopleController {
+@RequestMapping("**/telefones")
+public class TelephoneController {
 
     @Autowired
-    private PeopleService service;
+    private PeopleService peopleService;
 
-    private final String MAIN_VIEW_NAME = "pages/people";
+    private final String MAIN_VIEW_NAME = "pages/telephone";
 
-    @GetMapping()
-    public ModelAndView listAll() {
-	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", service.findAll());
-	addEmptyPeople(mv);
+    @GetMapping("/{id}")
+    public ModelAndView listAll(@PathVariable("id") Long id) {
+	People people = peopleService.findPeopleWithPhones(id);
+	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
+	mv.addObject("phones", people.getTelephones());
+	addEmptyPhone(mv);
 	return mv;
     }
 
-    @PostMapping()
+   /* @PostMapping()
     public ModelAndView save(People people) {
 	service.save(people);
 	return listAll();
@@ -64,9 +63,9 @@ public class PeopleController {
 	addEmptyPeople(mv);
 	return mv;
     }
-
-    private void addEmptyPeople(ModelAndView mv) {
-	mv.addObject("people", new People());
+*/
+    private void addEmptyPhone(ModelAndView mv) {
+	mv.addObject("phone", new Telephone());
     }
 
 }
