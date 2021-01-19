@@ -53,7 +53,6 @@ public class TelephoneController {
 	return listAll(peopleId);
     }
     
-    
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
 	Optional<Telephone> object = telephoneService.findById(id);
@@ -66,24 +65,18 @@ public class TelephoneController {
 	}
     }
 
-    /*
+    
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
-	service.deleteById(id);
-	return listAll();
-    }
-
-    @GetMapping("/search")
-    public ModelAndView findByName(@RequestParam String name) {
-	boolean nameIsEmpty = name.trim().isEmpty() || name == null;
-	if (nameIsEmpty) {
-	    return listAll();
+	Optional<Telephone> object = telephoneService.findById(id);
+	if(object.isPresent()) {
+	    Long peopleId = object.get().getPeople().getId();
+	    telephoneService.deleteById(id);
+	    return listAll(peopleId);
 	}
-	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", service.findByName(name));
-	addEmptyPeople(mv);
-	return mv;
+	return toPeoplePage();
     }
-*/
+    
     private void addEmptyPhone(ModelAndView mv) {
 	mv.addObject("phone", new Telephone());
     }

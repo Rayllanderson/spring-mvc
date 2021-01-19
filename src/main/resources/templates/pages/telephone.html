@@ -87,7 +87,7 @@
 					<td th:text="${phone.type}"></td>
 					<td> <span th:text="${phone.number}"></span></td>
 					<td> <a th:href="@{/telefones/edit/{id}(id=${phone.id})}">Editar</a> </td>
-					<td> <a href="#">Excluir</a> </td>
+					<td> <a th:href="@{/telefones/delete/{id}(id=${phone.id})}">Excluir</a> </td>
 				</tr>
 			</tbody>
 		</table>
