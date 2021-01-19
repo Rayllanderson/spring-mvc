@@ -40,12 +40,12 @@
 		<!--  FORM -->
 		<div style="display: flex; justify-content: center">
 			<form method="POST" action="/telefones" th:object="${phone}">
-				<input style="display: none" th:field="*{id}" name="id"/>
+				<input th:value="${people.id}" style="display: none" name="peopleId"/>
 				<div class="row g-3 align-items-center mb-3 mt-1">
 					<div class="col-auto" >
-						<select>
-							<option value="cell_phone">Celular</option>
-						    <option value="residential">Residencial</option>
+						<select th:field="*{type}" class="form-select">
+							<option th:value="'CELULAR'" th:text="Celular">Celular</option>
+						    <option th:value="'RESIDENCIAL'" th:text="Residencial"></option>
 						</select>
 					</div>
 					

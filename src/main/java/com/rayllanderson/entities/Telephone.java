@@ -21,6 +21,14 @@ public class Telephone {
     @ManyToOne(fetch = FetchType.LAZY)
     private People people;
 
+    public People getPeople() {
+        return people;
+    }
+
+    public void setPeople(People people) {
+        this.people = people;
+    }
+
     public Telephone() {
     }
 

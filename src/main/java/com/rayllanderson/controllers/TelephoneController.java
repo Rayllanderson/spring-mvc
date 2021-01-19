@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rayllanderson.entities.People;
 import com.rayllanderson.entities.Telephone;
 import com.rayllanderson.services.PeopleService;
 import com.rayllanderson.services.TelephoneService;
@@ -24,22 +26,29 @@ public class TelephoneController {
     private TelephoneService telephoneService;
 
     private final String MAIN_VIEW_NAME = "pages/telephone";
+    private final String PEOPLE_VIEW = "pages/people";
 
+    @GetMapping
+    public ModelAndView get() {
+	return new ModelAndView(PEOPLE_VIEW, "people", new People());
+    }
+    
     @GetMapping("/{id}")
     public ModelAndView listAll(@PathVariable("id") Long id) {
 	List<Telephone> phones = telephoneService.findPhonesByPeopleId(id);
-	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
-	mv.addObject("phones", phones);
+	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "phones", phones);
+	mv.addObject("people", peopleService.findById(id).get());
 	addEmptyPhone(mv);
 	return mv;
     }
 
-   /* @PostMapping()
-    public ModelAndView save(People people) {
-	service.save(people);
-	return listAll();
+    @PostMapping
+    public ModelAndView save(Telephone phone, Long peopleId) {
+	phone.setPeople(new People(peopleId, null));
+	telephoneService.save(phone);
+	return listAll(peopleId);
     }
-
+    /*
     @GetMapping("/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
 	Optional<People> object = service.findById(id);
@@ -72,5 +81,4 @@ public class TelephoneController {
     private void addEmptyPhone(ModelAndView mv) {
 	mv.addObject("phone", new Telephone());
     }
-
 }

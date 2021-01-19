@@ -26,6 +26,14 @@ public class People implements Serializable {
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Telephone> telephones = new ArrayList<>();
 
+    public People() {};
+    
+    public People(Long id, String name) {
+	super();
+	this.id = id;
+	this.name = name;
+    }
+    
     public Long getId() {
 	return id;
     }
