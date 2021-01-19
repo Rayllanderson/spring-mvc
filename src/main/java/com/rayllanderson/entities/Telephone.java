@@ -1,9 +1,11 @@
 package com.rayllanderson.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import com.rayllanderson.entities.enums.Type;
 
@@ -15,6 +17,9 @@ public class Telephone {
     private Long id;
     private Type type;
     private String number;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private People people;
 
     public Telephone() {
     }

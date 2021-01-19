@@ -1,5 +1,7 @@
 package com.rayllanderson.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,9 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rayllanderson.entities.People;
 import com.rayllanderson.entities.Telephone;
 import com.rayllanderson.services.PeopleService;
+import com.rayllanderson.services.TelephoneService;
 
 @Controller
 @RequestMapping("**/telefones")
@@ -17,14 +19,17 @@ public class TelephoneController {
 
     @Autowired
     private PeopleService peopleService;
+    
+    @Autowired
+    private TelephoneService telephoneService;
 
     private final String MAIN_VIEW_NAME = "pages/telephone";
 
     @GetMapping("/{id}")
     public ModelAndView listAll(@PathVariable("id") Long id) {
-	People people = peopleService.findPeopleWithPhones(id);
+	List<Telephone> phones = telephoneService.findPhonesByPeopleId(id);
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
-	mv.addObject("phones", people.getTelephones());
+	mv.addObject("phones", phones);
 	addEmptyPhone(mv);
 	return mv;
     }

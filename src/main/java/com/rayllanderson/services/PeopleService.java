@@ -42,9 +42,4 @@ public class PeopleService {
     public List<People> findByName(String name){
 	return repository.findByNameContains(name);
     }
-    
-    public People findPeopleWithPhones(Long peopleId) {
-	return repository.findPeoplesWithPhones(peopleId);
-    }
-
 }

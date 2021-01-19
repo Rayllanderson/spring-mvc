@@ -1,7 +1,7 @@
 package com.rayllanderson.services;
 
+import java.util.List;
 import java.util.Optional;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -34,5 +34,9 @@ public class TelephoneService {
 	} catch (IllegalArgumentException | EmptyResultDataAccessException e) {
 	    return false;
 	}
+    }
+    
+    public List<Telephone> findPhonesByPeopleId(Long peopleId){
+	return repository.FindPhonesByPeopleId(peopleId);
     }
 }
