@@ -1,6 +1,7 @@
 package com.rayllanderson.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,19 +26,22 @@ public class TelephoneController {
     @Autowired
     private TelephoneService telephoneService;
 
+    @Autowired
+    private PeopleController peopleController;
+    
     private final String MAIN_VIEW_NAME = "pages/telephone";
-    private final String PEOPLE_VIEW = "pages/people";
-
+    
+    
     @GetMapping
-    public ModelAndView get() {
-	return new ModelAndView(PEOPLE_VIEW, "people", new People());
+    public ModelAndView toPeoplePage() {
+	return peopleController.listAll();
     }
     
     @GetMapping("/{id}")
     public ModelAndView listAll(@PathVariable("id") Long id) {
 	List<Telephone> phones = telephoneService.findPhonesByPeopleId(id);
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "phones", phones);
-	mv.addObject("people", peopleService.findById(id).get());
+	addPeople(id, mv);
 	addEmptyPhone(mv);
 	return mv;
     }
@@ -48,19 +52,21 @@ public class TelephoneController {
 	telephoneService.save(phone);
 	return listAll(peopleId);
     }
-    /*
-    @GetMapping("/{id}")
+    
+    
+    @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
-	Optional<People> object = service.findById(id);
-	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
-	if (object.isPresent()) {
-	    mv.addObject("people", object.get());
-	} else {
-	    addEmptyPeople(mv);
+	Optional<Telephone> object = telephoneService.findById(id);
+	if (object.isPresent()) { 
+	    var mv = new ModelAndView(MAIN_VIEW_NAME, "phone", object.get());
+	    addPeople(object.get().getPeople().getId(), mv);
+	    return mv;
+	}else {
+	   return toPeoplePage();
 	}
-	return mv;
     }
 
+    /*
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
 	service.deleteById(id);
@@ -80,5 +86,9 @@ public class TelephoneController {
 */
     private void addEmptyPhone(ModelAndView mv) {
 	mv.addObject("phone", new Telephone());
+    }
+    
+    private void addPeople(Long id, ModelAndView mv) {
+	mv.addObject("people", peopleService.findById(id).get());
     }
 }

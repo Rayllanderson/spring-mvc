@@ -41,6 +41,7 @@
 		<div style="display: flex; justify-content: center">
 			<form method="POST" action="/telefones" th:object="${phone}">
 				<input th:value="${people.id}" style="display: none" name="peopleId"/>
+				<input th:field="*{id}" style="display: none" name="id"/>
 				<div class="row g-3 align-items-center mb-3 mt-1">
 					<div class="col-auto" >
 						<select th:field="*{type}" class="form-select">
@@ -85,7 +86,7 @@
 				<tr th:each="phone : ${phones}">
 					<td th:text="${phone.type}"></td>
 					<td> <span th:text="${phone.number}"></span></td>
-					<td> <a href="#">Editar</a> </td>
+					<td> <a th:href="@{/telefones/edit/{id}(id=${phone.id})}">Editar</a> </td>
 					<td> <a href="#">Excluir</a> </td>
 				</tr>
 			</tbody>

@@ -22,7 +22,6 @@ public class TelephoneService {
 	return repository.save(people);
     }
 
-    //@Transactional(r )
     public Optional<Telephone> findById(Long id) {
 	return repository.findById(id);
     }
