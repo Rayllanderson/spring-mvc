@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.People;
@@ -20,11 +21,12 @@ public class PeopleController {
     @Autowired
     private PeopleService service;
 
+    private final String VIEW_NAME = "pages/people";
+
     @GetMapping()
     public ModelAndView listAll() {
-	ModelAndView mv = new ModelAndView("pages/people");
-	mv.addObject("peoples", service.findAll());
-	mv.addObject("people", new People());
+	ModelAndView mv = new ModelAndView(VIEW_NAME, "peoples", service.findAll());
+	addEmptyPeople(mv);
 	return mv;
     }
 
@@ -37,11 +39,11 @@ public class PeopleController {
     @GetMapping("/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
 	Optional<People> object = service.findById(id);
-	ModelAndView mv = new ModelAndView("pages/people");
+	ModelAndView mv = new ModelAndView(VIEW_NAME);
 	if (object.isPresent()) {
 	    mv.addObject("people", object.get());
 	} else {
-	    mv.addObject("people", new People());
+	    addEmptyPeople(mv);
 	}
 	return mv;
     }
@@ -50,6 +52,21 @@ public class PeopleController {
     public ModelAndView delete(@PathVariable("id") Long id) {
 	service.deleteById(id);
 	return listAll();
+    }
+
+    @GetMapping("/search")
+    public ModelAndView findByName(@RequestParam String name) {
+	boolean nameIsEmpty = name.trim().isEmpty() || name == null;
+	if (nameIsEmpty) {
+	    return listAll();
+	}
+	ModelAndView mv = new ModelAndView(VIEW_NAME, "peoples", service.findByName(name));
+	addEmptyPeople(mv);
+	return mv;
+    }
+
+    private void addEmptyPeople(ModelAndView mv) {
+	mv.addObject("people", new People());
     }
 
 }

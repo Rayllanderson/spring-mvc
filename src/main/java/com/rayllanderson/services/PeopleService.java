@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.rayllanderson.entities.People;
@@ -13,25 +14,34 @@ import com.rayllanderson.repositories.PeopleRepository;
 
 @Service
 public class PeopleService {
-    
+
     @Autowired
     private PeopleRepository repository;
-    
+
     @Transactional
-    public People save (People people) {
+    public People save(People people) {
 	return repository.save(people);
     }
 
     public List<People> findAll() {
 	return repository.findAll();
     }
-    
+
     public Optional<People> findById(Long id) {
 	return repository.findById(id);
     }
+
+    public boolean deleteById(Long id) {
+	try {
+	    repository.deleteById(id);
+	    return true;
+	} catch (IllegalArgumentException | EmptyResultDataAccessException e) {
+	    return false;
+	}
+    }
     
-    public void deleteById(Long id) {
-	repository.deleteById(id);
+    public List<People> findByName(String name){
+	return repository.findByNameContains(name);
     }
 
 }
