@@ -35,6 +35,10 @@
 
 	<div class="container">
 		
+		<div th:each="m : ${msg}" class="alert alert-warning" role="alert">
+			<p class="bold"th:text="${m}"></p>
+		</div>
+		
 		<div class="text-center mb-3">
 			<h2 th:text="${people.name}"></h2>
 		</div>

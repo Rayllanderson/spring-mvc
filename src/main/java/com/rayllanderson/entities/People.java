@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class People implements Serializable {
@@ -23,6 +24,7 @@ public class People implements Serializable {
     private Long id;
 
     @NotEmpty(message = "Nome não pode ser vazio")
+    @NotNull
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "people")

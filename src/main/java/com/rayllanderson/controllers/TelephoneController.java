@@ -1,10 +1,14 @@
 package com.rayllanderson.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +50,11 @@ public class TelephoneController {
     }
 
     @PostMapping
-    public ModelAndView save(Telephone phone, Long peopleId) {
+    public ModelAndView save(@Valid Telephone phone, Long peopleId) {
+	boolean phoneIsInvalid = (phone != null && phone.getNumber().trim().isEmpty()) || phone.getNumber() == null || phone.getType() == null;
+	if (phoneIsInvalid) {
+	    return catchErrors(phone, peopleId);
+	}
 	phone.setPeople(new People(peopleId, null));
 	telephoneService.save(phone);
 	return listAll(peopleId);
@@ -89,5 +97,13 @@ public class TelephoneController {
 
     private void addPeople(Long id, ModelAndView mv) {
 	mv.addObject("people", peopleService.findById(id).get());
+    }
+    
+    
+    private ModelAndView catchErrors(Telephone phone, Long peopleId) {
+	var mv = listAll(peopleId);
+	mv.addObject("phone", phone);
+	mv.addObject("msg", "Número vazio ou tipo inválido");
+	return mv;
     }
 }
