@@ -21,11 +21,11 @@ public class PeopleController {
     @Autowired
     private PeopleService service;
 
-    private final String VIEW_NAME = "pages/people";
+    private final String MAIN_VIEW_NAME = "pages/people";
 
     @GetMapping()
     public ModelAndView listAll() {
-	ModelAndView mv = new ModelAndView(VIEW_NAME, "peoples", service.findAll());
+	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", service.findAll());
 	addEmptyPeople(mv);
 	return mv;
     }
@@ -39,7 +39,7 @@ public class PeopleController {
     @GetMapping("/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
 	Optional<People> object = service.findById(id);
-	ModelAndView mv = new ModelAndView(VIEW_NAME);
+	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
 	if (object.isPresent()) {
 	    mv.addObject("people", object.get());
 	} else {
@@ -60,7 +60,7 @@ public class PeopleController {
 	if (nameIsEmpty) {
 	    return listAll();
 	}
-	ModelAndView mv = new ModelAndView(VIEW_NAME, "peoples", service.findByName(name));
+	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", service.findByName(name));
 	addEmptyPeople(mv);
 	return mv;
     }
