@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
 import com.rayllanderson.entities.enums.Type;
 
@@ -16,6 +17,8 @@ public class Telephone {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Type type;
+    
+    @NotEmpty(message = "Número de telefone não pode ser vazio")
     private String number;
     
     @ManyToOne(fetch = FetchType.LAZY)

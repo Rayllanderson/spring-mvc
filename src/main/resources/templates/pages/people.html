@@ -32,6 +32,9 @@
 
 	<div class="container">
 		
+		<div th:each="m : ${msg}" class="alert alert-warning" role="alert">
+			<p class="bold"th:text="${m}"></p>
+		</div>
 		
 		<h3 class="text-center">Cadastrar</h3>
 		<!--  FORM -->

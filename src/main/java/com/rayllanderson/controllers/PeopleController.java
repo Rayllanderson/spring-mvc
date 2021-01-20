@@ -1,9 +1,14 @@
 package com.rayllanderson.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +36,10 @@ public class PeopleController {
     }
 
     @PostMapping()
-    public ModelAndView save(People people) {
+    public ModelAndView save(@Valid People people, BindingResult bindingResult) {
+	if(bindingResult.hasErrors()) {
+	    return catchErrors(bindingResult, people);
+	}
 	service.save(people);
 	return listAll();
     }
@@ -67,6 +75,15 @@ public class PeopleController {
 
     private void addEmptyPeople(ModelAndView mv) {
 	mv.addObject("people", new People());
+    }
+    
+    private ModelAndView catchErrors(BindingResult bindingResult, People people) {
+	var mv = listAll();
+	mv.addObject("people", people);
+	List<String> erros = new ArrayList<>();
+	bindingResult.getAllErrors().forEach(x -> erros.add(x.getDefaultMessage()));
+	mv.addObject("msg", erros);
+	return mv;
     }
 
 }
