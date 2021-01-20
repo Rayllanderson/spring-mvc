@@ -23,7 +23,7 @@ public class People implements Serializable {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "people")
     private List<Telephone> telephones = new ArrayList<>();
 
     public People() {};
