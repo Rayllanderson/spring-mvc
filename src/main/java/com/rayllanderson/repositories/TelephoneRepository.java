@@ -11,5 +11,8 @@ import com.rayllanderson.entities.Telephone;
 public interface TelephoneRepository extends JpaRepository<Telephone, Long>{
     
     @Query("select t from Telephone t where t.people.id = :id")
-    public List<Telephone> FindPhonesByPeopleId(@Param("id") Long peopleId);
+    public List<Telephone> findPhonesByPeopleId(@Param("id") Long peopleId);
+    
+    @Query("select t from Telephone t where t.number like concat('%', :number, '%') and t.people.id = :peopleId")
+    public List<Telephone> findByNumber(@Param("number") String number, @Param("peopleId") Long peopleId);
 }

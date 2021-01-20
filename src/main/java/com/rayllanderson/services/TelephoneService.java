@@ -36,6 +36,10 @@ public class TelephoneService {
     }
     
     public List<Telephone> findPhonesByPeopleId(Long peopleId){
-	return repository.FindPhonesByPeopleId(peopleId);
+	return repository.findPhonesByPeopleId(peopleId);
+    }
+    
+    public List<Telephone> findByNumber(String number, Long peopleId){
+	return repository.findByNumber(number, peopleId);
     }
 }

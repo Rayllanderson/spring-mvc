@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.People;
@@ -28,6 +29,7 @@ public class TelephoneController {
 
     @Autowired
     private PeopleController peopleController;
+    
     
     private final String MAIN_VIEW_NAME = "pages/telephone";
     
@@ -77,6 +79,14 @@ public class TelephoneController {
 	return toPeoplePage();
     }
     
+    @PostMapping("/search")
+    public ModelAndView findByName(Telephone phone, Long peopleId) {
+	List<Telephone> phones = telephoneService.findByNumber(phone.getNumber(), peopleId);
+	var mv = new ModelAndView(MAIN_VIEW_NAME, "phones", phones);
+	addPeople(peopleId, mv);
+	addEmptyPhone(mv);
+	return mv;
+    }
     private void addEmptyPhone(ModelAndView mv) {
 	mv.addObject("phone", new Telephone());
     }

@@ -40,7 +40,7 @@
 		<!--  FORM -->
 		<div style="display: flex; justify-content: center">
 			<form method="POST" action="/telefones" th:object="${phone}">
-				<input th:value="${people.id}" style="display: none" name="peopleId"/>
+				<input th:value="${people.id}" style="display: none" name="peopleId" readonly/>
 				<input th:field="*{id}" style="display: none" name="id"/>
 				<div class="row g-3 align-items-center mb-3 mt-1">
 					<div class="col-auto" >
@@ -61,11 +61,12 @@
 		</div>
 
 		<!-- SEARCH -->
-		<form action="/pessoas/search" method="GET">
+		<form action="/telefones/search" method="POST">
 			<div class="search-body mb-3">
 				<h3 class="text-center">Procurar Telefone</h3>
 				<div class="input-group mb-3">
 					<input type="text" class="form-control" name="number">
+					<input type="text" th:value="${people.id}" name="peopleId" style="display: none" readonly>
 					<button class="btn btn-outline-primary" type="submit">Pesquisar</button>
 				</div>	
 			</div>
