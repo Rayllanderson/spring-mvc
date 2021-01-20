@@ -39,7 +39,7 @@
 		<h3 class="text-center">Cadastrar</h3>
 		<!--  FORM -->
 		<div style="display: flex; justify-content: center">
-			<form method="POST" action="/pessoas" th:object="${people}">
+			<form method="POST" action="/pessoas" th:object="${people}" onsubmit="return nameValidation()">
 				<input style="display: none" th:field="*{id}" name="id"/>
 				<div class="row g-3 align-items-center mb-3 mt-1">
 					<div class="col-auto" >
@@ -82,7 +82,17 @@
 				</tr>
 			</tbody>
 		</table>
-
 	</div>
+	
+	<script type="text/javascript">
+		function nameValidation(){
+			const name = document.getElementById("name").value;
+			if (name){
+				return true;
+			}
+			alert('nome deve ser informado');
+			return false;
+		}
+	</script>
 </body>
 </html>

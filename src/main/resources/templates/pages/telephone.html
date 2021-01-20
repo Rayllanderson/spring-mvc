@@ -46,8 +46,8 @@
 		<h3 class="text-center">Cadastrar Telefone</h3>
 		<!--  FORM -->
 		<div style="display: flex; justify-content: center">
-			<form method="POST" action="/telefones" th:object="${phone}">
-				<input th:value="${people.id}" style="display: none" name="peopleId" readonly/>
+			<form method="POST" action="/telefones" th:object="${phone}" onsubmit="return numberValidation()">
+				<input th:value="${people.id}" style="display: none" name="peopleId" readonly />
 				<input th:field="*{id}" style="display: none" name="id"/>
 				<div class="row g-3 align-items-center mb-3 mt-1">
 					<div class="col-auto" >
@@ -58,7 +58,7 @@
 					</div>
 					
 					<div class="col-auto" >
-						<input type="text" class="form-control" placeholder="Número do Telefone" id="name" name="number" th:field="*{number}" />
+						<input type="text" class="form-control" placeholder="Número do Telefone" id="number" name="number" th:field="*{number}" />
 					</div>
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -99,7 +99,16 @@
 				</tr>
 			</tbody>
 		</table>
-			<!-- @{/null/{id}(id=${people.id})} -->
 	</div>
+	<script type="text/javascript">
+		function numberValidation(){
+			const number = document.getElementById("number").value;
+			if (number){
+				return true;
+			}
+			alert('número deve ser informado');
+			return false;
+		}
+	</script>
 </body>
 </html>
