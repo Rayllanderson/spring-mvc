@@ -1,5 +1,6 @@
 package com.rayllanderson.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,9 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.rayllanderson.services.UserService;
+
 @Configuration
 @EnableWebSecurity
 public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
+    
+    @Autowired
+    private UserService userService;
     
     @Override //configura as solicitações por http
     protected void configure(HttpSecurity http) throws Exception {
@@ -29,7 +35,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
     
     @Override //cria autenticação com user with database ou memória
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	    auth.inMemoryAuthentication().withUser("ray").password(passwordEncoder().encode("123")).roles("ADMIN");
+	auth.userDetailsService(userService).passwordEncoder(this.passwordEncoder());
     }
     
     @Bean 

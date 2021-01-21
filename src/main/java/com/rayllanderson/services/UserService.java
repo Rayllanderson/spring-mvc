@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +20,14 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
-    public User save(User people) {
-	return repository.save(people);
+    public User save(User user) {
+	user.setPassword(passwordEncoder.encode(user.getPassword()));
+	return repository.save(user);
     }
 
     public List<User> findAll() {
