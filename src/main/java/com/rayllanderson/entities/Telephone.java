@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import com.rayllanderson.entities.enums.Type;
+import com.rayllanderson.entities.enums.PhoneType;
 
 @Entity
 public class Telephone {
@@ -15,7 +15,7 @@ public class Telephone {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Type type;
+    private PhoneType type;
     
     private String number;
     
@@ -33,7 +33,7 @@ public class Telephone {
     public Telephone() {
     }
 
-    public Telephone(Long id, Type type, String number) {
+    public Telephone(Long id, PhoneType type, String number) {
 	super();
 	this.id = id;
 	this.type = type;
@@ -48,11 +48,11 @@ public class Telephone {
 	this.id = id;
     }
 
-    public Type getType() {
+    public PhoneType getType() {
 	return type;
     }
 
-    public void setType(Type type) {
+    public void setType(PhoneType type) {
 	this.type = type;
     }
 
