@@ -45,10 +45,13 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-	Optional<User> user = repository.findById(username);
-	if (user.isEmpty()) {
+	Optional<User> userFromDataBase = repository.findById(username);
+	if (userFromDataBase.isEmpty()) {
 	    throw new UsernameNotFoundException("Usuário não encontrado.");
 	}
-	return user.get();
+	User user = userFromDataBase.get();
+	return 
+	new org.springframework.security.core.userdetails.
+	User(user.getUsername(), user.getPassword(), true, true, true, true, user.getAuthorities());
     }
 }
