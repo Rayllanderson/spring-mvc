@@ -1,6 +1,6 @@
 package com.rayllanderson.entities.enums;
 
-public enum Type {
+public enum PhoneType {
 
     CELULAR, 
     RESIDENCIAL;
