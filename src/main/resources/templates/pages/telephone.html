@@ -100,15 +100,6 @@
 			</tbody>
 		</table>
 	</div>
-	<script type="text/javascript">
-		function numberValidation(){
-			const number = document.getElementById("number").value;
-			if (number){
-				return true;
-			}
-			alert('número deve ser informado');
-			return false;
-		}
-	</script>
+	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>
 </html>

@@ -84,15 +84,6 @@
 		</table>
 	</div>
 	
-	<script type="text/javascript">
-		function nameValidation(){
-			const name = document.getElementById("name").value;
-			if (name){
-				return true;
-			}
-			alert('nome deve ser informado');
-			return false;
-		}
-	</script>
+	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>
 </html>
