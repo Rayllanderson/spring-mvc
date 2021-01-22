@@ -1,17 +1,19 @@
-function nameValidation() {
-	const name = document.getElementById("name").value;
+function validation(nameFromDOM) {
+	const name = document.getElementById(nameFromDOM).value;
 	if (name) {
 		return true;
 	}
-	alert('nome deve ser informado');
+	alert(`${nameFromDOM} deve ser informado`);
 	return false;
 }
 
-function numberValidation() {
-	const number = document.getElementById("number").value;
-	if (number) {
+function userValidation(usernameFromDOM, passwordFromDOM) {
+	const username = document.getElementById(usernameFromDOM).value;
+	const password = document.getElementById(passwordFromDOM).value;
+	if (username && password) {
 		return true;
 	}
-	alert('número deve ser informado');
+	alert(`um ou mais campos estão vazios`);
 	return false;
 }
+

@@ -22,7 +22,7 @@
 				<div class="collapse navbar-collapse">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 						<li class="nav-item">
-							<a href="/" class="nav-link active">Home</a>
+							<a href="/" class="nav-link active" >Home</a>
 						</li>
 						<li class="nav-item">
 							<a href="/pessoas" class="nav-link active">Pessoas</a>
@@ -39,26 +39,17 @@
 			<p class="bold"th:text="${m}"></p>
 		</div>
 		
-		<div class="text-center mb-3">
-			<h2 th:text="${people.name}"></h2>
-		</div>
-		
-		<h3 class="text-center">Cadastrar Telefone</h3>
+		<h3 class="text-center">Cadastrar novo User</h3>
 		<!--  FORM -->
 		<div style="display: flex; justify-content: center">
-			<form method="POST" action="/telefones" th:object="${phone}" onsubmit="return validation('numero')">
-				<input th:value="${people.id}" style="display: none" name="peopleId" readonly />
-				<input th:field="*{id}" style="display: none" name="id"/>
+			<form method="POST" action="/usuarios" th:object="${user}" onsubmit="return userValidation('username', 'password')">
+				<input style="display: none" th:field="*{id}" name="id"/>
 				<div class="row g-3 align-items-center mb-3 mt-1">
 					<div class="col-auto" >
-						<select th:field="*{type}" class="form-select">
-							<option th:value="'CELULAR'" th:text="Celular">Celular</option>
-						    <option th:value="'RESIDENCIAL'" th:text="Residencial"></option>
-						</select>
+						<input type="text" class="form-control" placeholder="Nome" id="username" name="username" th:field="*{username}" />
 					</div>
-					
 					<div class="col-auto" >
-						<input type="text" class="form-control" placeholder="Número do Telefone" id="numero" name="number" th:field="*{number}" />
+						<input type="text" class="form-control" placeholder="Nome" id="password" name="password" th:field="*{password}" />
 					</div>
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -68,12 +59,11 @@
 		</div>
 
 		<!-- SEARCH -->
-		<form action="/telefones/search" method="POST">
+		<form action="/usuarios/search" method="GET">
 			<div class="search-body mb-3">
-				<h3 class="text-center">Procurar Telefone</h3>
+				<h3 class="text-center">Procurar por username</h3>
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" name="number">
-					<input type="text" th:value="${people.id}" name="peopleId" style="display: none" readonly>
+					<input type="text" class="form-control" name="name">
 					<button class="btn btn-outline-primary" type="submit">Pesquisar</button>
 				</div>	
 			</div>
@@ -83,23 +73,22 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th>Tipo</th>
-					<th>Número</th>
+					<th>Username</th>
 					<th>Editar</th>
 					<th>Excluir</th>
 				</tr>
 			</thead>
 
 			<tbody>
-				<tr th:each="phone : ${phones}">
-					<td th:text="${phone.type}"></td>
-					<td> <span th:text="${phone.number}"></span></td>
-					<td> <a th:href="@{/telefones/edit/{id}(id=${phone.id})}">Editar</a> </td>
-					<td> <a th:href="@{/telefones/delete/{id}(id=${phone.id})}">Excluir</a> </td>
+				<tr th:each="user : ${users}">
+					<td th:text="${user.username}"></td>
+					<td> <a href="@{/usuarios/edit/{username}(id=${user.username})}">Editar</a> </td>
+					<td> <a href="@{/usuarios/delete/{username}(id=${user.username})}">Excluir</a> </td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
+	
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>
 </html>
