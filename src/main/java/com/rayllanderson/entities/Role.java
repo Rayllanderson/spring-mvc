@@ -15,6 +15,12 @@ public class Role implements GrantedAuthority {
     @Id
     private RoleType roleName;
 
+    public Role() {}
+    
+    public Role(RoleType roleName) {
+	this.roleName = roleName;
+    }
+
     public RoleType getRoleName() {
 	return roleName;
     }
@@ -23,11 +29,15 @@ public class Role implements GrantedAuthority {
 	this.roleName = roleName;
     }
 
+    public boolean isActive(String roleName) {
+	return this.roleName.toString().equals(roleName);
+    }
+
     @Override
     public String getAuthority() {
 	return roleName.toString();
     }
-    
+
     @Override
     public int hashCode() {
 	final int prime = 31;
@@ -49,10 +59,9 @@ public class Role implements GrantedAuthority {
 	    return false;
 	return true;
     }
-    
+
     @Override
     public String toString() {
 	return "Role [roleName=" + roleName + "]";
     }
-
 }

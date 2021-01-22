@@ -43,13 +43,25 @@
 		<!--  FORM -->
 		<div style="display: flex; justify-content: center">
 			<form method="POST" action="/usuarios" th:object="${user}" onsubmit="return userValidation('username', 'password')">
-				<input style="display: none" th:field="*{id}" name="id"/>
 				<div class="row g-3 align-items-center mb-3 mt-1">
 					<div class="col-auto" >
-						<input type="text" class="form-control" placeholder="Nome" id="username" name="username" th:field="*{username}" />
+						<input type="text" class="form-control" placeholder="Username" id="username" name="username" th:field="*{username}" />
 					</div>
 					<div class="col-auto" >
-						<input type="text" class="form-control" placeholder="Nome" id="password" name="password" th:field="*{password}" />
+						<input type="text" class="form-control" placeholder="Senha" id="password" name="password" th:field="*{password}" />
+					</div>
+					<div class="col-auto">
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" value="ROLE_ADMIN" id="admin" name="roles"
+						  th:checked="${user.roleIsActive('ROLE_ADMIN')}">
+						  <label class="form-check-label" for="inlineCheckbox1">Admin</label>
+						</div> 
+						
+						<div class="form-check form-check-inline">
+						  <input class="form-check-input" type="checkbox" value="ROLE_DEFAULT" id="default" name="roles"
+						  th:checked="${user.roleIsActive('ROLE_DEFAULT')}">
+						  <label class="form-check-label" for="inlineCheckbox1">Default</label>
+						</div> 
 					</div>
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary">Cadastrar</button>
@@ -63,7 +75,7 @@
 			<div class="search-body mb-3">
 				<h3 class="text-center">Procurar por username</h3>
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" name="name">
+					<input type="text" class="form-control" name="username">
 					<button class="btn btn-outline-primary" type="submit">Pesquisar</button>
 				</div>	
 			</div>
@@ -82,8 +94,8 @@
 			<tbody>
 				<tr th:each="user : ${users}">
 					<td th:text="${user.username}"></td>
-					<td> <a href="@{/usuarios/edit/{username}(id=${user.username})}">Editar</a> </td>
-					<td> <a href="@{/usuarios/delete/{username}(id=${user.username})}">Excluir</a> </td>
+					<td> <a th:href="@{/usuarios/edit/{username}(username=${user.username})}">Editar</a> </td>
+					<td> <a th:href="@{/usuarios/delete/{username}(username=${user.username})}">Excluir</a> </td>
 				</tr>
 			</tbody>
 		</table>

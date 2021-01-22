@@ -12,9 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.rayllanderson.entities.enums.RoleType;
 
 @Entity
 @Table(name = "users")
@@ -23,9 +26,11 @@ public class User implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @NotEmpty(message = "username não pode ser vazio")
     private String username;
 
     @Column(nullable = false)
+    @NotEmpty(message = "senha não pode ser vazia")
     private String password;
     
     @ManyToMany(fetch = FetchType.EAGER)
@@ -81,6 +86,10 @@ public class User implements UserDetails {
 	return roles;
     }
 
+    public boolean roleIsActive(String roleName) {
+	return roles.contains(new Role(RoleType.valueOf(roleName)));
+    }
+    
     @Override
     public int hashCode() {
 	final int prime = 31;

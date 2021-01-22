@@ -20,7 +20,7 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -34,6 +34,14 @@ public class UserService implements UserDetailsService {
 	return repository.findAll();
     }
 
+    public Optional<User> findById(String username) {
+	return repository.findById(username);
+    }
+    
+    public List<User> serachByUsername(String username) {
+   	return repository.findByUsernameContains(username);
+       }
+    
     public boolean deleteById(String username) {
 	try {
 	    repository.deleteById(username);
