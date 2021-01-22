@@ -17,7 +17,7 @@
 </head>
 <body>
 		
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark  justify-content: between">
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -28,6 +28,7 @@
 							<a href="/pessoas" class="nav-link active">Pessoas</a>
 						</li>
 					</ul>
+					<a class="nav-link active" href="/logout" style="color:white;">Logout</a>
 				 </div>
 			</div>
 		</nav>
@@ -44,13 +45,14 @@
 		<div style="display: flex; justify-content: center">
 			<form method="POST" action="/usuarios" th:object="${user}" onsubmit="return userValidation('username', 'password')">
 				<div class="row g-3 align-items-center mb-3 mt-1">
-					<div class="col-auto" >
+					<div class="col-12" >
 						<input type="text" class="form-control" placeholder="Username" id="username" name="username" th:field="*{username}" />
-					</div>
-					<div class="col-auto" >
+					</div><div></div>
+					<div class="col-12" >
 						<input type="password" class="form-control" placeholder="Senha" id="password" name="password" th:field="*{password}" />
 					</div>
-					<div class="col-auto">
+					<div>
+						<h5>Acesso do usuário</h5>
 						<div class="form-check form-check-inline">
 						  <input class="form-check-input" type="checkbox" value="ROLE_ADMIN" id="admin" name="roles"
 						  th:checked="${user.roleIsActive('ROLE_ADMIN')}">
