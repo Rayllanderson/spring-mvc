@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Pessoas</title>
@@ -26,6 +27,9 @@
 						</li>
 						<li class="nav-item">
 							<a href="/pessoas" class="nav-link active">Pessoas</a>
+						</li>
+						<li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+							<a href="/usuarios" class="nav-link active">Usuários</a>
 						</li>
 					</ul>
 				 </div>
