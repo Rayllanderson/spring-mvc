@@ -27,10 +27,10 @@ public class People implements Serializable {
     @NotNull
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "people")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "people")
     private List<Telephone> telephones = new ArrayList<>();
     
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "people")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "people")
     private List<Address> addresses = new ArrayList<>();
 
     public People() {};
