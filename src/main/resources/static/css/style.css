@@ -1,0 +1,37 @@
+.address-list-container {
+	display: flex;
+	justify-content: center;
+}
+
+.address-list-items {
+	width: 70%;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 235px);
+	grid-gap: 20px 15px;
+	justify-content: space-between;
+}
+
+.address-card-container {
+	background-color: #FFF;
+	box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	padding: 15px;
+}
+
+.address-item {
+	width: 70%;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 235px);
+	grid-gap: 20px 15px;
+	justify-content: space-between;
+}
+
+.remove-address {
+	position: relative;
+	float: right
+}
+
+.edit-address {
+	position: relative;
+	float: left
+}
