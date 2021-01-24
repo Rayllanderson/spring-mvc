@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Address implements Serializable {
@@ -16,8 +18,17 @@ public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @NotNull
+    @NotEmpty(message = "Cep não pode ser vazio")
     private String cep;
+    
+    @NotNull
+    @NotEmpty(message = "Cidade não pode ser vazia")
     private String city;
+    
+    @NotNull
+    @NotEmpty(message = "Estado não pode ser vazio")
     private String state;
 
     @ManyToOne

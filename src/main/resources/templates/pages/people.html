@@ -81,7 +81,7 @@
 			<tbody>
 				<tr th:each="people : ${peoples}">
 					<td th:text="${people.id}"></td>
-					<td> <a th:href="@{/telefones/{id}(id=${people.id})}" class="nav-link"><span th:text="${people.name}"></span></a></td>
+					<td> <a th:href="@{/infos/{id}(id=${people.id})}" class="nav-link"><span th:text="${people.name}"></span></a></td>
 					<td> <a th:href="@{/pessoas/{id}(id=${people.id})}">Editar</a> </td>
 					<td> <a th:href="@{/pessoas/delete/{id}(id=${people.id})}">Excluir</a> </td>
 				</tr>
