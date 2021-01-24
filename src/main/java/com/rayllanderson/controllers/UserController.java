@@ -37,7 +37,7 @@ public class UserController {
 	return mv;
     }
 
-    @PostMapping()
+    @PostMapping
     public ModelAndView save(@Valid User user, @RequestParam List<String> roles, BindingResult bindingResult) {
 	if (bindingResult.hasErrors()) {
 	    return catchErrors(bindingResult, user);

@@ -17,3 +17,14 @@ function userValidation(usernameFromDOM, passwordFromDOM) {
 	return false;
 }
 
+
+function addressValidation(){
+	const cep = document.getElementById('cep').value;
+	const state = document.getElementById('state').value;
+	const city = document.getElementById('city').value;
+	if (cep && state && city) {
+		return true;
+	}
+	alert(`um ou mais campos estão vazios`);
+	return false;
+}

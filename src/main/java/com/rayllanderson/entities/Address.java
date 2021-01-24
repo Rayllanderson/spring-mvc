@@ -1,46 +1,50 @@
 package com.rayllanderson.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class People implements Serializable {
+public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @NotEmpty(message = "Nome não pode ser vazio")
+    
     @NotNull
-    private String name;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "people")
-    private List<Telephone> telephones = new ArrayList<>();
+    @NotEmpty(message = "Cep não pode ser vazio")
+    private String cep;
     
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "people")
-    private List<Address> addresses = new ArrayList<>();
-
-    public People() {};
+    @NotNull
+    @NotEmpty(message = "Cidade não pode ser vazia")
+    private String city;
     
-    public People(Long id, String name) {
-	super();
+    @NotNull
+    @NotEmpty(message = "Estado não pode ser vazio")
+    private String state;
+
+    @ManyToOne
+    private People people;
+
+    public Address() {
+    };
+
+    public Address(Long id, String cep, String city, String state, People people) {
 	this.id = id;
-	this.name = name;
+	this.cep = cep;
+	this.city = city;
+	this.state = state;
+	this.people = people;
     }
-    
+
     public Long getId() {
 	return id;
     }
@@ -49,16 +53,36 @@ public class People implements Serializable {
 	this.id = id;
     }
 
-    public String getName() {
-	return name;
+    public String getCep() {
+	return cep;
     }
 
-    public void setName(String name) {
-	this.name = name;
+    public void setCep(String cep) {
+	this.cep = cep;
     }
 
-    public List<Telephone> getTelephones() {
-	return telephones;
+    public String getCity() {
+	return city;
+    }
+
+    public void setCity(String city) {
+	this.city = city;
+    }
+
+    public String getState() {
+	return state;
+    }
+
+    public void setState(String state) {
+	this.state = state;
+    }
+
+    public People getPeople() {
+	return people;
+    }
+
+    public void setPeople(People people) {
+	this.people = people;
     }
 
     @Override
@@ -77,7 +101,7 @@ public class People implements Serializable {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	People other = (People) obj;
+	Address other = (Address) obj;
 	if (id == null) {
 	    if (other.id != null)
 		return false;
@@ -85,5 +109,4 @@ public class People implements Serializable {
 	    return false;
 	return true;
     }
-
 }

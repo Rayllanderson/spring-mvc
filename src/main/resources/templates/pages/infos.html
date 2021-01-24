@@ -5,16 +5,59 @@
 <head>
 <meta charset="UTF-8">
 <title>Pessoas</title>
-<link
+	<link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
 	crossorigin="anonymous">
 
-<script
+	<script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
 	crossorigin="anonymous"></script>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" 
+	integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+	
+	<style type="text/css">
+		
+		.address-list-container {
+		  display: flex;
+		  justify-content: center;
+		}
+		
+		.address-list-items {
+		  width: 70%;
+		  display: grid;
+		  grid-template-columns: repeat(auto-fill, 235px);
+		  grid-gap: 20px 15px;
+		  justify-content: space-between;
+		}
+	    
+	    .address-card-container{
+		 background-color: #FFF;
+		  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+		  border-radius: 10px;
+		  padding: 15px;
+		}
+  	
+  		.address-item{
+  		  width: 70%;
+		  display: grid;
+		  grid-template-columns: repeat(auto-fill, 235px);
+		  grid-gap: 20px 15px;
+		  justify-content: space-between;
+	 	 }
+	 	 
+	 	 .remove-address{
+	 	 	position: relative; float: right
+	 	 }
+	 	 
+	 	 .edit-address{
+	 	 	position: relative; float: left
+	 	 }
+	 	 
+	</style>
 </head>
 <body>
 		
@@ -99,11 +142,54 @@
 				<tr th:each="phone : ${phones}">
 					<td th:text="${phone.type}"></td>
 					<td> <span th:text="${phone.number}"></span></td>
-					<td> <a th:href="@{/telefones/edit/{id}(id=${phone.id})}">Editar</a> </td>
-					<td> <a th:href="@{/telefones/delete/{id}(id=${phone.id})}">Excluir</a> </td>
+					<td> <a th:href="@{/telefones/edit/{id}(id=${phone.id})}"><i class="fas fa-edit"></i></a> </td>
+					<td> <a th:href="@{/telefones/delete/{id}(id=${phone.id})}"><i class="fas fa-trash-alt"></i></a> </td>
 				</tr>
 			</tbody>
 		</table>
+		
+		<h3 class="text-center mt-3">Cadastrar Endereço</h3>
+		<!--  FORM -->
+		<div style="display: flex; justify-content: center">
+			<form method="POST" action="/enderecos" th:object="${address}" onsubmit="return addressValidation()">
+				<input th:value="${people.id}" style="display: none" name="peopleId" readonly />
+				<input th:field="*{id}" style="display: none" name="id"/>
+				<div class="row g-3 align-items-center mb-3 mt-1">
+					<div class="col-auto" >
+						<input type="text" class="form-control" placeholder="CEP" id="cep" name="cep" th:field="*{cep}" />
+					</div>
+					
+					<div class="col-auto" >
+						<input type="text" class="form-control" placeholder="Estado" id="state" name="state" th:field="*{state}" />
+					</div>
+					
+					<div class="col-auto" >
+						<input type="text" class="form-control" placeholder="Cidade" id="city" name="city" th:field="*{city}" />
+					</div>
+					<div class="col-auto">
+						<button type="submit" class="btn btn-primary">Cadastrar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<div class="address-list-container mt-3 mb-3">
+        	<div class="address-list-items">
+				<div class="address-card-container" th:each="address : ${addresses}" >
+					<div class="address-item-head">
+						<a th:href="@{/enderecos/delete/{id}(id=${address.id})}" class="remove-address"><i class="fas fa-trash-alt"></i></a>
+						<a th:href="@{/enderecos/edit/{id}(id=${address.id})}" class="edit-address"><i class="fas fa-edit"></i></a>
+					</div>
+					<hr>
+					<div class="address-item">
+						<p class="lead" th:text="${address.cep}"></p>
+						<p class="lead" th:text="${address.city}"></p>
+						<p class="lead" th:text="${address.state}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>
