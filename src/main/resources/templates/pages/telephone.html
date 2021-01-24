@@ -104,6 +104,38 @@
 				</tr>
 			</tbody>
 		</table>
+		
+		<h3 class="text-center mt-3">Cadastrar Endereço</h3>
+		<!--  FORM -->
+		<div style="display: flex; justify-content: center">
+			<form method="POST" action="/telefones" th:object="${phone}" onsubmit="return validation('numero')">
+				<input th:value="${people.id}" style="display: none" name="peopleId" readonly />
+				<input th:field="*{id}" style="display: none" name="id"/>
+				<div class="row g-3 align-items-center mb-3 mt-1">
+					<div class="col-auto" >
+						<input type="text" class="form-control" placeholder="CEP" id="z" name="cep" th:field="*{cep}" />
+					</div>
+					
+					<div class="col-auto" >
+						<input type="text" class="form-control" placeholder="Estado" id="x" name="state" th:field="*{state}" />
+					</div>
+					
+					<div class="col-auto" >
+						<input type="text" class="form-control" placeholder="Cidade" id="y" name="city" th:field="*{city}" />
+					</div>
+					<div class="col-auto">
+						<button type="submit" class="btn btn-primary">Cadastrar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		<div>
+			
+			
+		
+		</div>
+		
 	</div>
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>

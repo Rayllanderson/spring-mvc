@@ -29,6 +29,9 @@ public class People implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "people")
     private List<Telephone> telephones = new ArrayList<>();
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "people")
+    private List<Address> addresses = new ArrayList<>();
 
     public People() {};
     

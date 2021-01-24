@@ -1,8 +1,8 @@
 package com.rayllanderson.entities;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,7 +37,7 @@ public class User implements UserDetails {
     @JoinTable(name="user_role",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name="role_id"))
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -82,7 +82,7 @@ public class User implements UserDetails {
 	return true;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
 	return roles;
     }
 
