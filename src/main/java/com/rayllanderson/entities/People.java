@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.rayllanderson.entities.enums.Gender;
+
 @Entity
 public class People implements Serializable {
 
@@ -27,16 +30,19 @@ public class People implements Serializable {
     @NotNull
     private String name;
 
+    private Gender gender;
+    
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "people")
     private List<Telephone> telephones = new ArrayList<>();
     
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "people")
     private List<Address> addresses = new ArrayList<>();
 
     public People() {};
     
     public People(Long id, String name) {
-	super();
 	this.id = id;
 	this.name = name;
     }
@@ -59,6 +65,18 @@ public class People implements Serializable {
 
     public List<Telephone> getTelephones() {
 	return telephones;
+    }
+    
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
     @Override

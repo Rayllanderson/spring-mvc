@@ -12,11 +12,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.People;
+import com.rayllanderson.entities.enums.Gender;
 import com.rayllanderson.services.PeopleService;
 
 @Controller
@@ -72,7 +75,17 @@ public class PeopleController {
 	addEmptyPeople(mv);
 	return mv;
     }
-
+    
+    @PostMapping("/search")
+    @ResponseBody
+    public List<People> findByGender(@RequestBody String gender) {
+	try{
+	    return service.findByGender(Gender.valueOf(gender));
+	}catch (IllegalArgumentException e) {
+	    return service.findAll();
+	}
+    }
+    
     private void addEmptyPeople(ModelAndView mv) {
 	mv.addObject("people", new People());
     }

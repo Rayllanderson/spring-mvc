@@ -29,9 +29,46 @@ function addressValidation() {
 	return false;
 }
 
+$("#genders").on('change', function() {
+	$("#searchGender").submit();
+})
+
+$("#searchGender").submit(function(event) {
+	event.preventDefault();
+	var post_url = $(this).attr("action");
+	var request_method = $(this).attr("method");
+	const data = $('#genders').val();
+	$.ajax({
+		url: post_url,
+		contentType: 'text/plain',
+		method: request_method,
+		data: data
+	}).done(function(response) {
+		clearTable('peopleTable');
+		buildPeopleTable(response)
+	});
+
+})
+
+function buildPeopleTable(response) {
+	$.each(response, function(key) {
+		$htmlstring =
+			`<tr>
+					<td>${response[key].id}</td>
+					<td> <a href="/infos/${response[key].id}" class="nav-link"><span >${response[key].name}</span></a></td>
+					<td> ${response[key].gender}</td>
+					<td> <a href="/pessoas/${response[key].id}">Editar</a> </td>
+					<td> <a href="/pessoas/delete/${response[key].id}">Excluir</a> </td>
+				</tr>`;
+		$("#peopleTable").append($htmlstring);
+	})
+}
+
+function clearTable(id) {
+	$("#" + id + " tbody").empty();
+}
 
 //código copiado de https://viacep.com.br/exemplo/jquery/
-
 $(document).ready(function() {
 
 	function cleanFormCep() {

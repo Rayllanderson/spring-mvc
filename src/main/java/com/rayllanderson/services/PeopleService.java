@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rayllanderson.entities.People;
+import com.rayllanderson.entities.enums.Gender;
 import com.rayllanderson.repositories.PeopleRepository;
 
 @Service
@@ -41,5 +42,9 @@ public class PeopleService {
     
     public List<People> findByName(String name){
 	return repository.findByNameContains(name);
+    }
+    
+    public List<People> findByGender(Gender gender){
+	return repository.findByGender(gender.ordinal());
     }
 }

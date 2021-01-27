@@ -15,6 +15,8 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
 	crossorigin="anonymous"></script>
+	
+	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
 		
@@ -41,7 +43,7 @@
 			<p class="bold"th:text="${m}"></p>
 		</div>
 		
-		<h3 class="text-center">Cadastrar</h3>
+		<h3 class="text-center mt-3">Cadastrar</h3>
 		<!--  FORM -->
 		<div style="display: flex; justify-content: center">
 			<form method="POST" action="/pessoas" th:object="${people}" onsubmit="return validation('name')">
@@ -50,29 +52,57 @@
 					<div class="col-auto" >
 						<input type="text" class="form-control" placeholder="Nome" id="name" name="name" th:field="*{name}" />
 					</div>
+					<div class="col-auto" >
+						<select th:field="*{gender}" class="form-select">
+							<option th:value="'FEMALE'" th:text="Feminino"></option>
+						    <option th:value="'MALE'" th:text="Masculino"></option>
+						</select>
+					</div>
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary">Cadastrar</button>
 					</div>
 				</div>
 			</form>
 		</div>
+	
+		<fieldset class="p-4 mt-3 mb-3 search-fieldset" >
+		<legend class="text-center mb-2 font-weight-bold">Campo de Pesquisa</legend>
 
-		<!-- SEARCH -->
-		<form action="/pessoas/search" method="GET">
-			<div class="search-body mb-3">
-				<h3 class="text-center">Procurar por nome</h3>
-				<div class="input-group mb-3">
-					<input type="text" class="form-control" name="name">
-					<button class="btn btn-outline-primary" type="submit">Pesquisar</button>
-				</div>	
-			</div>
-		</form>
+		<div class="row g-3 align-items-center mb-4">
+			
+			<!-- SEARCH -->
+			<form action="/pessoas/search" method="POST" id="searchGender" class="mb-2 form-search">
+					<div class="col-4">
+						<h5 class="text-center">Filtrar por genero</h5>
+						<select class="form-select" id="genders" name="gender">
+							<option value="null">Selecione um genero</option>
+							<option value="FEMALE">Feminino</option>
+							<option value="MALE">Masculino</option>
+						</select>
+					</div>
+			</form>
+			
+			
+			<!-- SEARCH -->
+			<form action="/pessoas/search" method="GET" id="searchName" class="form-search">
+					<div class="col-6">
+						<h5 class="text-center">Filtrar por nome</h5>
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" name="name">
+							<button class="btn btn-outline-primary" type="submit">Pesquisar</button>
+						</div>	
+					</div>
+			</form>
+		</div>
+			
+		</fieldset>
 		<!--  TABLE -->
-		<table class="table">
+		<table class="table" id="peopleTable">
 			<thead>
 				<tr>
 					<th>ID</th>
 					<th>Nome</th>
+					<th>Sexo</th>
 					<th>Editar</th>
 					<th>Excluir</th>
 				</tr>
@@ -82,6 +112,7 @@
 				<tr th:each="people : ${peoples}">
 					<td th:text="${people.id}"></td>
 					<td> <a th:href="@{/infos/{id}(id=${people.id})}" class="nav-link"><span th:text="${people.name}"></span></a></td>
+					<td th:text="${people.gender}"></td>
 					<td> <a th:href="@{/pessoas/{id}(id=${people.id})}">Editar</a> </td>
 					<td> <a th:href="@{/pessoas/delete/{id}(id=${people.id})}">Excluir</a> </td>
 				</tr>
