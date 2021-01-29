@@ -1,9 +1,12 @@
 package com.rayllanderson.controllers;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.People;
 import com.rayllanderson.entities.enums.Gender;
+import com.rayllanderson.reports.ReportUtil;
 import com.rayllanderson.services.PeopleService;
+
+import net.sf.jasperreports.engine.JRException;
 
 @Controller
 @RequestMapping("**/pessoas")
@@ -30,17 +36,25 @@ public class PeopleController {
     private PeopleService service;
 
     private final String MAIN_VIEW_NAME = "pages/people";
+    
+    @Autowired
+    HttpServletRequest request;
+
+    @Autowired
+    private ReportUtil reportUtil;
 
     @GetMapping()
     public ModelAndView listAll() {
-	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", service.findAll());
+	List<People> peoples = service.findAll();
+	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", peoples);
 	addEmptyPeople(mv);
+	request.getSession().setAttribute("peoples", peoples);
 	return mv;
     }
 
     @PostMapping()
     public ModelAndView save(@Valid People people, BindingResult bindingResult) {
-	if(bindingResult.hasErrors()) {
+	if (bindingResult.hasErrors()) {
 	    return catchErrors(bindingResult, people);
 	}
 	service.save(people);
@@ -71,25 +85,52 @@ public class PeopleController {
 	if (nameIsEmpty) {
 	    return listAll();
 	}
-	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", service.findByName(name));
+	List<People> peoples = service.findByName(name);
+	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", peoples);
+	request.getSession().setAttribute("peoples", peoples);
 	addEmptyPeople(mv);
 	return mv;
     }
-    
+
     @PostMapping("/search")
     @ResponseBody
-    public List<People> findByGender(@RequestBody String gender) {
-	try{
-	    return service.findByGender(Gender.valueOf(gender));
-	}catch (IllegalArgumentException e) {
-	    return service.findAll();
+    public List<People> findByGender(@RequestBody String gender, HttpServletRequest request) {
+	List<People> peoples = new ArrayList<>();
+	try {
+	    peoples = service.findByGender(Gender.valueOf(gender));
+	    return peoples;
+	} catch (IllegalArgumentException e) {
+	    peoples = service.findAll();
+	} finally {
+	    request.getSession().setAttribute("peoples", peoples);
 	}
+	return peoples;
     }
-    
+
+    @GetMapping("/pdf-report-download")
+    public void pdfReportDownload(HttpServletResponse response) throws JRException, IOException {
+	@SuppressWarnings("unchecked")
+	List<People> peoples = (List<People>) request.getSession().getAttribute("peoples");
+	byte [] pdf = reportUtil.generateReport(peoples, "people", request.getServletContext());
+	
+	// tamanho do arquivo
+	response.setContentLength(pdf.length);
+	
+	response.setContentType("application/pdf");
+	
+	String headerKey = "Content-Disposition";
+	String headerValue = String.format("attachment; filename=\"%s\"", "relatório.pdf");
+	response.setHeader(headerKey, headerValue);
+	response.getOutputStream().write(pdf);
+	response.getOutputStream().close();
+	
+	
+    }
+
     private void addEmptyPeople(ModelAndView mv) {
 	mv.addObject("people", new People());
     }
-    
+
     private ModelAndView catchErrors(BindingResult bindingResult, People people) {
 	var mv = listAll();
 	mv.addObject("people", people);
