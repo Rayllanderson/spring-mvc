@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rayllanderson.entities.People;
 import com.rayllanderson.entities.enums.Gender;
 import com.rayllanderson.reports.ReportUtil;
+import com.rayllanderson.repositories.ProfessionRepository;
 import com.rayllanderson.services.PeopleService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -38,6 +39,9 @@ public class PeopleController {
     private final String MAIN_VIEW_NAME = "pages/people";
     
     @Autowired
+    private ProfessionRepository professionRepository;
+    
+    @Autowired
     HttpServletRequest request;
 
     @Autowired
@@ -47,6 +51,7 @@ public class PeopleController {
     public ModelAndView listAll() {
 	List<People> peoples = service.findAll();
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", peoples);
+	mv.addObject("professions", professionRepository.findAllWithoutPeoples());
 	addEmptyPeople(mv);
 	request.getSession().setAttribute("peoples", peoples);
 	return mv;
