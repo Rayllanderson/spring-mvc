@@ -4,53 +4,39 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.rayllanderson.entities.enums.Gender;
 
 @Entity
-public class People implements Serializable {
+public class Profession implements Serializable{
 
     private static final long serialVersionUID = 1L;
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @NotEmpty(message = "Nome não pode ser vazio")
-    @NotNull
     private String name;
 
-    private Gender gender;
-    
-    @ManyToOne
-    private Profession profession;
-    
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "people")
-    private List<Telephone> telephones = new ArrayList<>();
-    
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "people")
-    private List<Address> addresses = new ArrayList<>();
+    @OneToMany(mappedBy = "profession", fetch = FetchType.EAGER)
+    private List<People> peoples = new ArrayList<>();
 
-    public People() {};
-    
-    public People(Long id, String name) {
+    public Profession() {
+	super();
+    }
+
+    public Profession(Long id, String name) {
+	super();
 	this.id = id;
 	this.name = name;
     }
-    
+
     public Long getId() {
 	return id;
     }
@@ -65,32 +51,12 @@ public class People implements Serializable {
 
     public void setName(String name) {
 	this.name = name;
-    }
-
-    public List<Telephone> getTelephones() {
-	return telephones;
-    }
+    }    
     
-    public Gender getGender() {
-        return gender;
+    public List<People> getPeoples() {
+        return peoples;
     }
 
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public List<Address> getAddresses() {
-        return addresses;
-    }
-
-    public Profession getProfession() {
-        return profession;
-    }
-
-    public void setProfession(Profession profession) {
-        this.profession = profession;
-    }
-    
     @Override
     public int hashCode() {
 	final int prime = 31;
@@ -107,7 +73,7 @@ public class People implements Serializable {
 	    return false;
 	if (getClass() != obj.getClass())
 	    return false;
-	People other = (People) obj;
+	Profession other = (Profession) obj;
 	if (id == null) {
 	    if (other.id != null)
 		return false;
@@ -115,5 +81,4 @@ public class People implements Serializable {
 	    return false;
 	return true;
     }
-
 }

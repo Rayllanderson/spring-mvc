@@ -57,6 +57,7 @@ function buildPeopleTable(response) {
 					<td>${response[key].id}</td>
 					<td> <a href="/infos/${response[key].id}" class="nav-link"><span >${response[key].name}</span></a></td>
 					<td> ${response[key].gender}</td>
+					<td> ${response[key].profession.name}</td>
 					<td> <a href="/pessoas/${response[key].id}">Editar</a> </td>
 					<td> <a href="/pessoas/delete/${response[key].id}">Excluir</a> </td>
 				</tr>`;

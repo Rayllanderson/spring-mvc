@@ -123,8 +123,6 @@ public class PeopleController {
 	response.setHeader(headerKey, headerValue);
 	response.getOutputStream().write(pdf);
 	response.getOutputStream().close();
-	
-	
     }
 
     private void addEmptyPeople(ModelAndView mv) {
