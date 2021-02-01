@@ -58,8 +58,8 @@ function buildPeopleTable(response) {
 					<td> <a href="/infos/${response[key].id}" class="nav-link"><span >${response[key].name}</span></a></td>
 					<td> ${response[key].gender}</td>
 					<td> ${response[key].profession.name}</td>
-					<td> <a href="/pessoas/${response[key].id}">Editar</a> </td>
-					<td> <a href="/pessoas/delete/${response[key].id}">Excluir</a> </td>
+					<td> <a class="btn btn-outline-primary" href="/pessoas/${response[key].id}"><i class="fas fa-edit"></i></a> </td>
+					<td> <a class="btn btn-outline-danger" href="/pessoas/delete/${response[key].id}"><i class="fas fa-trash-alt"></i></a> </td>
 				</tr>`;
 		$("#peopleTable").append($htmlstring);
 	})

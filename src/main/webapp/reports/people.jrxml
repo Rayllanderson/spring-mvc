@@ -20,6 +20,9 @@
 	<field name="id" class="java.lang.Long">
 		<fieldDescription><![CDATA[id]]></fieldDescription>
 	</field>
+	<field name="profession" class="com.rayllanderson.entities.Profession">
+		<fieldDescription><![CDATA[profession]]></fieldDescription>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -55,7 +58,7 @@
 				<text><![CDATA[Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="330" y="0" width="100" height="30" uuid="c75c05aa-4439-4c35-9635-577068cd309e">
+				<reportElement x="300" y="0" width="100" height="30" uuid="c75c05aa-4439-4c35-9635-577068cd309e">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ca48eb71-ddf5-45e4-9e33-912055e2cc47"/>
 				</reportElement>
 				<textElement>
@@ -63,10 +66,16 @@
 				</textElement>
 				<text><![CDATA[Gender]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="420" y="0" width="100" height="30" uuid="0313970e-d7fd-4aee-bea7-1140b4a60a94">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e776ef8a-efff-4877-8be0-163213f530b1"/>
+				</reportElement>
+				<text><![CDATA[profession]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="30" splitType="Stretch">
+		<band height="36" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="60" height="30" uuid="dcf8b2f5-d9ec-4363-a604-4409cb68e821">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="16a9cc71-45ae-4bf5-b6e3-67b104731b4e"/>
@@ -80,10 +89,16 @@
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="0" width="100" height="30" uuid="dd42309b-1c25-4d27-adf7-4fc69edeb0b6">
+				<reportElement x="300" y="0" width="100" height="30" uuid="dd42309b-1c25-4d27-adf7-4fc69edeb0b6">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ca48eb71-ddf5-45e4-9e33-912055e2cc47"/>
 				</reportElement>
 				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="100" height="30" uuid="a882f5b4-4512-4003-8d71-1064157a65db">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e776ef8a-efff-4877-8be0-163213f530b1"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{profession}.getName()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

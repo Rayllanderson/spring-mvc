@@ -72,6 +72,7 @@ public class PeopleController {
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
 	if (object.isPresent()) {
 	    mv.addObject("people", object.get());
+	    mv.addObject("professions", professionRepository.findAllWithoutPeoples());
 	} else {
 	    addEmptyPeople(mv);
 	}
