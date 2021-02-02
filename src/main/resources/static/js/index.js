@@ -51,12 +51,13 @@ $("#searchGender").submit(function(event) {
 })
 
 function buildPeopleTable(response) {
+	console.log(response)
 	$.each(response, function(key) {
 		$htmlstring =
 			`<tr>
 					<td>${response[key].id}</td>
 					<td> <a href="/infos/${response[key].id}" class="nav-link"><span >${response[key].name}</span></a></td>
-					<td> ${response[key].gender}</td>
+					<td> ${convertGenderName(response[key].gender)}</td>
 					<td> ${response[key].profession.name}</td>
 					<td> <a class="btn btn-outline-primary" href="/pessoas/${response[key].id}"><i class="fas fa-edit"></i></a> </td>
 					<td> <a class="btn btn-outline-danger" href="/pessoas/delete/${response[key].id}"><i class="fas fa-trash-alt"></i></a> </td>
@@ -67,6 +68,10 @@ function buildPeopleTable(response) {
 
 function clearTable(id) {
 	$("#" + id + " tbody").empty();
+}
+
+function convertGenderName(gender){
+	return gender == 'F' ? "Feminino" : "Masculino"
 }
 
 //código copiado de https://viacep.com.br/exemplo/jquery/

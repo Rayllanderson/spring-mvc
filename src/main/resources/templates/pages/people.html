@@ -63,8 +63,7 @@
 						<div class="col-4" >
 							<label for="name" class="col-form-label">Gênero: </label>
 							<select th:field="*{gender}" class="form-select">
-								<option th:value="'FEMALE'" th:text="Feminino"></option>
-							    <option th:value="'MALE'" th:text="Masculino"></option>
+								<option th:each = "g : ${T(com.rayllanderson.entities.enums.Gender).values()}" th:value="${g}" th:text="${g.name}"/>
 							</select>
 						</div>
 						<div class="w-100"></div>
@@ -94,8 +93,7 @@
 							<h5 class="text-center">Filtrar por genero</h5>
 							<select class="form-select" id="genders" name="gender">
 								<option value="null">Selecione um genero</option>
-								<option value="FEMALE">Feminino</option>
-								<option value="MALE">Masculino</option>
+								<option th:each = "g : ${T(com.rayllanderson.entities.enums.Gender).values()}" th:value="${g}" th:text="${g.name}"/>
 							</select>
 						</div>
 				</form>
@@ -137,7 +135,7 @@
 					<tr th:each="people : ${peoples}">
 						<td th:text="${people.id}"></td>
 						<td> <a th:href="@{/infos/{id}(id=${people.id})}" class="nav-link"><span th:text="${people.name}"></span></a></td>
-						<td th:text="${people.gender}"></td>
+						<td th:text="${people.gender.name}"></td>
 						<td th:text="${people.profession.name}"></td>
 						<td> <a class="btn btn-outline-primary" th:href="@{/pessoas/{id}(id=${people.id})}"><i class="fas fa-edit"></i></a> </td>
 						<td> <a class="btn btn-outline-danger" th:href="@{/pessoas/delete/{id}(id=${people.id})}"><i class="fas fa-trash-alt"></i></a> </td>

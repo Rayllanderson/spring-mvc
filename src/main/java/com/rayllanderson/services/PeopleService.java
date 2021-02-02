@@ -45,6 +45,6 @@ public class PeopleService {
     }
     
     public List<People> findByGender(Gender gender){
-	return repository.findByGender(gender.ordinal());
+	return repository.findByGender(gender);
     }
 }

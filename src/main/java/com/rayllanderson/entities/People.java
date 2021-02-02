@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +33,7 @@ public class People implements Serializable {
     @NotNull
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     
     @ManyToOne

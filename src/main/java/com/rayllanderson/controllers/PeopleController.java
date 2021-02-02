@@ -107,10 +107,10 @@ public class PeopleController {
 	    return peoples;
 	} catch (IllegalArgumentException e) {
 	    peoples = service.findAll();
+	    return peoples;
 	} finally {
 	    request.getSession().setAttribute("peoples", peoples);
 	}
-	return peoples;
     }
 
     @GetMapping("/pdf-report-download")
