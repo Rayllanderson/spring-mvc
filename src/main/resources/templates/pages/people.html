@@ -73,12 +73,17 @@
 								<option th:each="profession : ${professions}" th:value="${profession.id}" th:text="${profession.name}"></option>
 							</select>
 						</div>
+						<div class="w-100"></div>
+						<div class="col-4" >
+							<label class="col-form-label">Data de Nascimento: </label>
+							<input type="date" th:field="*{birthday}" class="form-control" />
+						</div>
 						<div class="w-100 mb-3"></div>
-						<div class="col-4">
+						<div class="col-4 mb-2">
 							<button type="submit" class="btn btn-primary d-flex justify-content-end">Cadastrar</button>
 						</div>
 				</div>
-			</form>
+			</form> <!-- FIM CADASTRO -->
 
 		</div>
 		
