@@ -76,10 +76,12 @@ function convertGenderName(gender) {
 
 function hideCurriculumInfos(text) {
 	const divInfos = $("#curriculumInfos");
+	const title = $("#titleCurriculumForm");
 	if (text) {
 		const hasCurriculum = text.includes("Sim");
 		if (hasCurriculum) {
 			divInfos.show();
+			title.text("Atualizar Curriculo");
 		} else {
 			divInfos.hide();
 		}

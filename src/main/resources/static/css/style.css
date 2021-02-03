@@ -64,6 +64,16 @@ html, body {
 	display: flex; justify-content: center;
 }
 
+.people-infos{
+	padding: 10px;
+	margin-left: 20px;
+}
+
+.people-infos label{
+	font-size: 22px;
+}
+
 .people-infos span {
-	font-size: 20px
+	font-size: 20px;
+	font-weight: lighter;
 }

@@ -50,41 +50,25 @@
 		</div>
 		
 		<div class="card card-table mt-2 mb-2">
-			<div class="text-center mb-3" style="display: inline-block;">
+			<div class="people-infos mb-3" style="display: inline-block;">
 				<h2 th:text="${people.name}"></h2>
-				<h5 th:text="${people.birthday}"></h5>
-				<h5 th:text="${people.profession.name}"></h5>
-				<h5 th:text="${people.gender.name}"></h5>
-				
+				<label> <i class="fas fa-birthday-cake"></i> Data de Nascimento: </label> <span th:text="${people.birthday}"></span>
+				<br>
+				<label> <i class="fas fa-briefcase"></i> Profissão: </label> <span th:text="${people.profession.name}"></span>
+				<br>
+				<label> <i class="fas fa-venus-mars"></i> Genero: </label> <span th:text="${people.gender.name}"></span> <br>
+				<label style="display: inline-block;"> <i class="fas fa-file-word"></i> Possui currículo? </label> <span th:text="${hasCurriculum}"></span>
 				<hr>
-				<div class="people-infos">
-					<h5 style="display: inline-block;"> Possui currículo? </h5> <span th:text="${hasCurriculum}"></span>
-					<div id="curriculumInfos">
-						<form action="/infos/download/curriculum">
-							<button class="btn btn-outline-primary" title="Baixar currículo">Download <i class="fas fa-file-pdf"></i></button>
-						</form>
-						<a class="btn btn-outline-danger" th:href="@{/files/delete/{id}(id=${people.id})}" title="Deletar currículo">Apagar <i class="fas fa-trash-alt"></i></a>
-					</div>
-				</div>
-				<form action="/files" method="post" enctype="multipart/form-data">
-					<div class="row justify-content-center mb-2">
-						<div class="col-4" >
-							<input style="display: none" th:value="${people.id}" name="peopleId"/>
-							<label class="col-form-label">Novo Currículo </label>
-							<input type="file" name="file" class="form-control" />
-							<button type="submit" class="btn btn-primary">Enviar</button>
-						</div>
-					</div>
-				</form>	
 			</div>
 		</div>
 		
 		<div class="card card-table mt-2 mb-2">
 		
-			<h4 class="text-center mt-2">Cadastrar Telefone</h4>
+			<h3 class="text-center mt-2 mb-3">Telefones</h3>
 			<!--  FORM -->
 			<div style="display: flex; justify-content: center">
 				<form method="POST" action="/telefones" th:object="${phone}" onsubmit="return validation('numero')">
+					<p class="text-center" style="margin-bottom: -10px">Cadastrar Telefone</p>
 					<input th:value="${people.id}" style="display: none" name="peopleId" readonly />
 					<input th:field="*{id}" style="display: none" name="id"/>
 					<div class="row g-3 align-items-center mb-3 mt-1">
@@ -99,7 +83,7 @@
 							<input type="text" class="form-control" placeholder="Número do Telefone" id="numero" name="number" th:field="*{number}" />
 						</div>
 						<div class="col-auto">
-							<button type="submit" class="btn btn-primary">Cadastrar</button>
+							<button type="submit" class="btn btn-primary">Salvar</button>
 						</div>
 					</div>
 				</form>
@@ -108,7 +92,7 @@
 			<!-- SEARCH -->
 			<form action="/telefones/search" method="POST" class="center-search">
 				<div class="search-body mb-3 col-6" >
-					<h5 class="text-center">Procurar Telefone</h5>
+					<p class="text-center">Procurar Telefone</p>
 					<div class="input-group mb-3">
 						<input type="text" class="form-control" name="number">
 						<input type="text" th:value="${people.id}" name="peopleId" style="display: none" readonly>
@@ -140,11 +124,12 @@
 			</table>
 		</div>
 		
-		<div class="card mt-3 mb-3" >
-			<h3 class="text-center mt-3">Cadastrar Endereço</h3>
+		<div class="card mt-3 mb-3 p-3" >
+			<h3 class="text-center mt-3 mb-3">Endereços</h3>
 			<!--  FORM -->
 			<div style="display: flex; justify-content: center">
 				<form method="POST" action="/enderecos" th:object="${address}" onsubmit="return addressValidation()">
+					<p class="text-center" style="margin-bottom: -10px">Cadastrar</p>
 					<input th:value="${people.id}" style="display: none" name="peopleId" readonly />
 					<input th:field="*{id}" style="display: none" name="id"/>
 					<div class="row g-3 align-items-center mb-3 mt-1">
@@ -182,8 +167,32 @@
 					</div>
 				</div>
 			</div>
+		</div> <!-- FIM ENDEREÇO -->
+		
+		<div class="card mt-3 mb-3 p-4" >
+		<h3 class="text-center mt-3 mb-3">Currículo</h3>
+			<div style="margin-left: 30px">
+					<div id="curriculumInfos" class="text-center">
+						<form action="/infos/download/curriculum">
+							<label style="font-size: 18px;">Baixar Currículo &nbsp;</label> <button class="btn btn-outline-primary mb-2" title="Baixar currículo">Download <i class="fas fa-file-pdf"></i></button>
+						</form> 
+						<label style="font-size: 18px;"> Deletar Currículo &nbsp;</label> <a class="btn btn-outline-danger" th:href="@{/files/delete/{id}(id=${people.id})}" title="Deletar currículo"> Apagar <i class="fas fa-trash-alt"></i> &nbsp; </a>
+					</div>
+				<hr>
+				<form action="/files" method="post" enctype="multipart/form-data">
+					<div class="row mb-2 justify-content-center">
+						<div class="col-4" >
+							<input style="display: none" th:value="${people.id}" name="peopleId"/>
+							<label class="col-form-label" id="titleCurriculumForm">Novo Currículo </label>
+							<input type="file" name="file" class="form-control" />
+							<button type="submit" class="btn btn-primary mt-2">Enviar</button>
+						</div>
+					</div>
+				</form>	
+			</div>
 		</div>
-	</div>
+		
+	</div> <!-- FIM CONTAINER -->
 	    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
