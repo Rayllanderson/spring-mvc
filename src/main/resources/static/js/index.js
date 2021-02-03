@@ -70,9 +70,21 @@ function clearTable(id) {
 	$("#" + id + " tbody").empty();
 }
 
-function convertGenderName(gender){
+function convertGenderName(gender) {
 	return gender == 'F' ? "Feminino" : "Masculino"
 }
+
+function hideCurriculumInfos(text) {
+	const divInfos = $("#curriculumInfos");
+	const hasCurriculum = text.includes("Sim");
+	if (hasCurriculum) {
+		divInfos.show();
+	} else {
+		divInfos.hide();
+	}
+}
+
+
 
 //código copiado de https://viacep.com.br/exemplo/jquery/
 $(document).ready(function() {

@@ -29,6 +29,7 @@ import com.rayllanderson.reports.ReportUtil;
 import com.rayllanderson.repositories.ProfessionRepository;
 import com.rayllanderson.services.FileService;
 import com.rayllanderson.services.PeopleService;
+import com.rayllanderson.util.FileUtil;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -128,17 +129,7 @@ public class PeopleController {
 	@SuppressWarnings("unchecked")
 	List<People> peoples = (List<People>) request.getSession().getAttribute("peoples");
 	byte [] pdf = reportUtil.generateReport(peoples, "people", request.getServletContext());
-	
-	// tamanho do arquivo
-	response.setContentLength(pdf.length);
-	
-	response.setContentType("application/pdf");
-	
-	String headerKey = "Content-Disposition";
-	String headerValue = String.format("attachment; filename=\"%s\"", "relatório.pdf");
-	response.setHeader(headerKey, headerValue);
-	response.getOutputStream().write(pdf);
-	response.getOutputStream().close();
+	FileUtil.setToDownload(response, pdf, "relatório", "pdf");
     }
 
     private void addEmptyPeople(ModelAndView mv) {

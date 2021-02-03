@@ -54,11 +54,31 @@
 				<h2 th:text="${people.name}"></h2>
 				<h5 th:text="${people.birthday}"></h5>
 				<h5 th:text="${people.profession.name}"></h5>
-				<h5 th:text="${people.gender}"></h5>
+				<h5 th:text="${people.gender.name}"></h5>
+				
+				<hr>
+				<div class="people-infos">
+					<h5 style="display: inline-block;"> Possui currículo? </h5> <span th:text="${hasCurriculum}"></span>
+					<div id="curriculumInfos">
+						<form action="/infos/download/curriculum">
+							<button class="btn btn-outline-primary" title="Baixar currículo">Download <i class="fas fa-file-pdf"></i></button>
+						</form>
+						<a class="btn btn-outline-danger" href="#" title="Deletar currículo">Apagar <i class="fas fa-trash-alt"></i></a>
+					</div>
+				</div>
+				<form action="...">
+					<div class="row justify-content-center mb-2">
+						<div class="col-4" >
+							<label class="col-form-label">Novo Currículo </label>
+							<input type="file" name="file" class="form-control" />
+						</div>
+					</div>
+				</form>	
 			</div>
-			
-			<hr>
-			
+		</div>
+		
+		<div class="card card-table mt-2 mb-2">
+		
 			<h4 class="text-center mt-2">Cadastrar Telefone</h4>
 			<!--  FORM -->
 			<div style="display: flex; justify-content: center">
@@ -82,9 +102,7 @@
 					</div>
 				</form>
 			</div>
-		</div>
 		
-		<div class="card card-table mt-2 mb-2">
 			<!-- SEARCH -->
 			<form action="/telefones/search" method="POST" class="center-search">
 				<div class="search-body mb-3 col-6" >
@@ -169,5 +187,14 @@
             crossorigin="anonymous"></script>
             
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		
+			$(function(){
+				var hasCurriculum = /*[[${hasCurriculum}]]*/ 'default';
+				hideCurriculumInfos(hasCurriculum)
+			});
+		/*]]>*/
+	</script>
 </body>
 </html>
