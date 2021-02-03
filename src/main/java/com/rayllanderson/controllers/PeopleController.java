@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rayllanderson.entities.File;
 import com.rayllanderson.entities.People;
 import com.rayllanderson.entities.enums.Gender;
 import com.rayllanderson.reports.ReportUtil;
@@ -69,11 +68,8 @@ public class PeopleController {
 	if (bindingResult.hasErrors()) {
 	    return catchErrors(bindingResult, people);
 	}
-	boolean hasFile = !file.isEmpty() || file.getSize() == 0;
 	people = service.save(people);
-	if (hasFile) {
-	    fileService.save(new File(file.getBytes(), people.getId()));
-	}
+	fileService.save(file, people.getId());
 	return listAll();
     }
 

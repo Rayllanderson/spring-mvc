@@ -76,11 +76,13 @@ function convertGenderName(gender) {
 
 function hideCurriculumInfos(text) {
 	const divInfos = $("#curriculumInfos");
-	const hasCurriculum = text.includes("Sim");
-	if (hasCurriculum) {
-		divInfos.show();
-	} else {
-		divInfos.hide();
+	if (text) {
+		const hasCurriculum = text.includes("Sim");
+		if (hasCurriculum) {
+			divInfos.show();
+		} else {
+			divInfos.hide();
+		}
 	}
 }
 

@@ -27,6 +27,9 @@ public class PeopleInformationController {
 
     @Autowired
     private PeopleRepository peopleRepository;
+    
+    @Autowired
+    private PeopleController peopleController;
 
     @Autowired
     private FileRepository fileRepository;
@@ -37,7 +40,7 @@ public class PeopleInformationController {
     @Autowired
     private AddressRepository addressRepository;
 
-    private Long peopleId = null;
+    protected Long peopleId = null;
 
     private final String MAIN_VIEW_NAME = "pages/infos";
 
@@ -59,6 +62,11 @@ public class PeopleInformationController {
 	}
     }
 
+    @GetMapping
+    public ModelAndView toPeoplePage() {
+	return peopleController.listAll();
+    }
+    
     public void addEmptyPhone(ModelAndView mv) {
 	mv.addObject("phone", new Telephone());
     }
@@ -89,5 +97,9 @@ public class PeopleInformationController {
 	}catch (Exception e) {
 	    mv.addObject("hasCurriculum", "Não");
 	}
+    }
+
+    public Long getPeopleId() {
+        return peopleId;
     }
 }

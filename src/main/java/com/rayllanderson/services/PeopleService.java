@@ -17,6 +17,9 @@ public class PeopleService {
 
     @Autowired
     private PeopleRepository repository;
+    
+    @Autowired
+    private FileService fileService;
 
     @Transactional
     public People save(People people) {
@@ -31,8 +34,10 @@ public class PeopleService {
 	return repository.findById(id);
     }
 
+    @Transactional
     public boolean deleteById(Long id) {
 	try {
+	    fileService.deleteById(id);
 	    repository.deleteById(id);
 	    return true;
 	} catch (IllegalArgumentException | EmptyResultDataAccessException e) {

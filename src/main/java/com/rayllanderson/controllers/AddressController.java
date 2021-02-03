@@ -21,23 +21,12 @@ import com.rayllanderson.services.AddressService;
 
 @Controller
 @RequestMapping("**/enderecos")
-public class AddressController {
+public class AddressController extends PeopleInformationController{
 
     @Autowired
     private AddressService addressService;
 
-    @Autowired
-    private PeopleController peopleController;
-
-    @Autowired
-    private PeopleInformationController infosController;
-
     private final String MAIN_VIEW_NAME = "pages/infos";
-
-    @GetMapping
-    public ModelAndView toPeoplePage() {
-	return peopleController.listAll();
-    }
 
     @PostMapping
     public ModelAndView save(@Valid Address address, Long peopleId, BindingResult bindingResult) {
@@ -55,7 +44,7 @@ public class AddressController {
 	if (object.isPresent()) {
 	    var mv = new ModelAndView(MAIN_VIEW_NAME, "address", object.get());
 	    addPeople(object.get().getPeople().getId(), mv);
-	    infosController.addEmptyPhone(mv);
+	    addEmptyPhone(mv);
 	    return mv;
 	} else {
 	    return toPeoplePage();
@@ -71,14 +60,6 @@ public class AddressController {
 	    return listInfos(peopleId);
 	}
 	return toPeoplePage();
-    }
-
-    private void addPeople(Long id, ModelAndView mv) {
-	infosController.addPeople(id, mv);
-    }
-
-    private ModelAndView listInfos(Long id) {
-	return infosController.listInfos(id);
     }
 
     private ModelAndView catchErrors(Address address, Long peopleId, BindingResult bindingResult) {

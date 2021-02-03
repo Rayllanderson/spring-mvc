@@ -37,11 +37,12 @@ public class UserService implements UserDetailsService {
     public Optional<User> findById(String username) {
 	return repository.findById(username);
     }
-    
+
     public List<User> serachByUsername(String username) {
-   	return repository.findByUsernameContains(username);
-       }
-    
+	return repository.findByUsernameContains(username);
+    }
+
+    @Transactional
     public boolean deleteById(String username) {
 	try {
 	    repository.deleteById(username);
@@ -58,8 +59,7 @@ public class UserService implements UserDetailsService {
 	    throw new UsernameNotFoundException("Usuário não encontrado.");
 	}
 	User user = userFromDataBase.get();
-	return 
-	new org.springframework.security.core.userdetails.
-	User(user.getUsername(), user.getPassword(), true, true, true, true, user.getAuthorities());
+	return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true,
+		true, true, true, user.getAuthorities());
     }
 }

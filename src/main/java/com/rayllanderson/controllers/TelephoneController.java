@@ -18,23 +18,12 @@ import com.rayllanderson.services.TelephoneService;
 
 @Controller
 @RequestMapping("**/telefones")
-public class TelephoneController {
+public class TelephoneController extends PeopleInformationController{
 
     @Autowired
     private TelephoneService telephoneService;
-
-    @Autowired
-    private PeopleController peopleController;
-
-    @Autowired
-    private PeopleInformationController infosController;
     
     private final String MAIN_VIEW_NAME = "pages/infos";
-
-    @GetMapping
-    public ModelAndView toPeoplePage() {
-	return peopleController.listAll();
-    }
 
     @PostMapping
     public ModelAndView save(@Valid Telephone phone, Long peopleId) {
@@ -54,7 +43,7 @@ public class TelephoneController {
 	if (object.isPresent()) {
 	    var mv = new ModelAndView(MAIN_VIEW_NAME, "phone", object.get());
 	    addPeople(object.get().getPeople().getId(), mv);
-	    infosController.addEmptyAddress(mv);
+	    addEmptyAddress(mv);
 	    return mv;
 	} else {
 	    return toPeoplePage();
@@ -69,7 +58,7 @@ public class TelephoneController {
 	    telephoneService.deleteById(id);
 	    return listInfos(peopleId);
 	}
-	return toPeoplePage();
+	return super.toPeoplePage();
     }
 
     @PostMapping("/search")
@@ -77,20 +66,8 @@ public class TelephoneController {
 	var mv = new ModelAndView(MAIN_VIEW_NAME, "phones", telephoneService.findByNumber(phone.getNumber(), peopleId));
 	addPeople(peopleId, mv);
 	addEmptyPhone(mv);
-	infosController.addEmptyAddress(mv);
+	addEmptyAddress(mv);
 	return mv;
-    }
-
-    private void addEmptyPhone(ModelAndView mv) {
-	infosController.addEmptyPhone(mv);
-    }
-
-    private void addPeople(Long id, ModelAndView mv) {
-	 infosController.addPeople(id, mv);
-    }
-
-    private ModelAndView listInfos(Long id) {
-	return infosController.listInfos(id);
     }
     
     private ModelAndView catchErrors(Telephone phone, Long peopleId) {
