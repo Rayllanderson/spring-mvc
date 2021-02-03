@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -47,6 +48,9 @@ public class People implements Serializable {
     
     @ManyToOne
     private Profession profession;
+    
+    @Transient
+    private File curriculum;
     
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "people")
@@ -109,6 +113,14 @@ public class People implements Serializable {
 
     public void setBirthday(Date birthday) {
 	this.birthday = birthday;
+    }
+
+    public File getCurriculum() {
+	return curriculum;
+    }
+
+    public void setCurriculum(File curriculum) {
+	this.curriculum = curriculum;
     }
 
     @Override

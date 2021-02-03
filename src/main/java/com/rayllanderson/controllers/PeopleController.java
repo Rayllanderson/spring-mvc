@@ -19,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rayllanderson.entities.File;
 import com.rayllanderson.entities.People;
 import com.rayllanderson.entities.enums.Gender;
 import com.rayllanderson.reports.ReportUtil;
 import com.rayllanderson.repositories.ProfessionRepository;
+import com.rayllanderson.services.FileService;
 import com.rayllanderson.services.PeopleService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -35,6 +38,9 @@ public class PeopleController {
 
     @Autowired
     private PeopleService service;
+    
+    @Autowired
+    private FileService fileService;
 
     private final String MAIN_VIEW_NAME = "pages/people";
     
@@ -57,12 +63,16 @@ public class PeopleController {
 	return mv;
     }
 
-    @PostMapping()
-    public ModelAndView save(@Valid People people, BindingResult bindingResult) {
+    @PostMapping(consumes = {"multipart/form-data"})
+    public ModelAndView save(@Valid People people, BindingResult bindingResult, MultipartFile file) throws IOException {
 	if (bindingResult.hasErrors()) {
 	    return catchErrors(bindingResult, people);
 	}
-	service.save(people);
+	boolean hasFile = !file.isEmpty() || file.getSize() == 0;
+	people = service.save(people);
+	if (hasFile) {
+	    fileService.save(new File(file.getBytes(), people.getId()));
+	}
 	return listAll();
     }
 

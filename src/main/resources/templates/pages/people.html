@@ -52,31 +52,36 @@
 		<div class="card mt-3">
 			<h3 class="text-center mt-3">Cadastrar</h3>
 			<!--  FORM -->
-			<form method="POST" action="/pessoas" th:object="${people}" onsubmit="return validation('name')">
+			<form method="POST" action="/pessoas" th:object="${people}" enctype="multipart/form-data" onsubmit="return validation('name')">
 				<div class="row justify-content-center mb-2">
 					<input style="display: none" th:field="*{id}" name="id"/>
 						<div class="col-4" >
-							<label for="name" class="col-form-label">Nome: </label>
+							<label for="name" class="col-form-label">Nome </label>
 							<input type="text" class="form-control" placeholder="Nome" id="name" name="name" th:field="*{name}" />
 						</div>
 						<div class="w-100"></div>
 						<div class="col-4" >
-							<label for="name" class="col-form-label">Gênero: </label>
+							<label for="name" class="col-form-label">Gênero </label>
 							<select th:field="*{gender}" class="form-select">
 								<option th:each = "g : ${T(com.rayllanderson.entities.enums.Gender).values()}" th:value="${g}" th:text="${g.name}"/>
 							</select>
 						</div>
 						<div class="w-100"></div>
 						<div class="col-4" >
-							<label class="col-form-label">Profissão: </label>
+							<label class="col-form-label">Profissão </label>
 							<select th:field="*{profession}" class="form-select">
 								<option th:each="profession : ${professions}" th:value="${profession.id}" th:text="${profession.name}"></option>
 							</select>
 						</div>
 						<div class="w-100"></div>
 						<div class="col-4" >
-							<label class="col-form-label">Data de Nascimento: </label>
+							<label class="col-form-label">Data de Nascimento </label>
 							<input type="date" th:field="*{birthday}" class="form-control" />
+						</div>
+						<div class="w-100"></div>
+						<div class="col-4" >
+							<label class="col-form-label">Currículo </label>
+							<input type="file" name="file" class="form-control" />
 						</div>
 						<div class="w-100 mb-3"></div>
 						<div class="col-4 mb-2">
