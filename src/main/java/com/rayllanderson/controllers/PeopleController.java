@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rayllanderson.entities.File;
 import com.rayllanderson.entities.People;
 import com.rayllanderson.entities.enums.Gender;
 import com.rayllanderson.reports.ReportUtil;
 import com.rayllanderson.repositories.ProfessionRepository;
 import com.rayllanderson.services.FileService;
 import com.rayllanderson.services.PeopleService;
-import com.rayllanderson.util.FileUtil;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -125,7 +125,7 @@ public class PeopleController {
 	@SuppressWarnings("unchecked")
 	List<People> peoples = (List<People>) request.getSession().getAttribute("peoples");
 	byte [] pdf = reportUtil.generateReport(peoples, "people", request.getServletContext());
-	FileUtil.setToDownload(response, pdf, "relatório", "pdf");
+	new File(null, pdf, "relatório", "application/pdf").download(response);
     }
 
     private void addEmptyPeople(ModelAndView mv) {
@@ -140,5 +140,4 @@ public class PeopleController {
 	mv.addObject("msg", erros);
 	return mv;
     }
-
 }

@@ -173,7 +173,8 @@
 		<h3 class="text-center mt-3 mb-3">Currículo</h3>
 			<div style="margin-left: 30px">
 					<div id="curriculumInfos" class="text-center">
-						<form action="/infos/download/curriculum">
+						<form action="/files/download/curriculum">
+							<input style="display: none" th:value="${people.id}" name="peopleId"/>
 							<label style="font-size: 18px;">Baixar Currículo &nbsp;</label> <button class="btn btn-outline-primary mb-2" title="Baixar currículo">Download <i class="fas fa-file-pdf"></i></button>
 						</form> 
 						<label style="font-size: 18px;"> Deletar Currículo &nbsp;</label> <a class="btn btn-outline-danger" th:href="@{/files/delete/{id}(id=${people.id})}" title="Deletar currículo"> Apagar <i class="fas fa-trash-alt"></i> &nbsp; </a>

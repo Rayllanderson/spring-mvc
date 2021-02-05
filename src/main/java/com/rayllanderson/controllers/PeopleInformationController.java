@@ -1,9 +1,6 @@
 package com.rayllanderson.controllers;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,13 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.Address;
-import com.rayllanderson.entities.File;
 import com.rayllanderson.entities.Telephone;
 import com.rayllanderson.repositories.AddressRepository;
 import com.rayllanderson.repositories.FileRepository;
 import com.rayllanderson.repositories.PeopleRepository;
 import com.rayllanderson.repositories.TelephoneRepository;
-import com.rayllanderson.util.FileUtil;
 
 @Controller
 @RequestMapping("**/infos")
@@ -32,7 +27,7 @@ public class PeopleInformationController {
     private PeopleController peopleController;
 
     @Autowired
-    private FileRepository fileRepository;
+    protected FileRepository fileRepository;
 
     @Autowired
     private TelephoneRepository telephoneRepository;
@@ -79,17 +74,6 @@ public class PeopleInformationController {
 	mv.addObject("people", peopleRepository.findById(id).get());
     }
 
-    @GetMapping("/download/curriculum")
-    public void downloadCurriculum(HttpServletResponse response) {
-	try {
-	    File file = fileRepository.findById(peopleId).get();
-	    FileUtil.setToDownload(response, file.getBytes(), "currículo", "pdf");
-	    response.setStatus(200);
-	} catch (NoSuchElementException e) {
-	    response.setStatus(400);
-	}
-    }
-    
     private void addCurriculumText(ModelAndView mv) {
 	try{
 	    fileRepository.findById(peopleId).get();
