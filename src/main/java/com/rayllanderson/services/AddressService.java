@@ -26,7 +26,6 @@ public class AddressService {
 	return repository.findById(id);
     }
 
-    @Transactional
     public boolean deleteById(Long id) {
 	try {
 	    repository.deleteById(id);

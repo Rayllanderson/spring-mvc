@@ -26,30 +26,29 @@ public class PeopleService {
 	return repository.save(people);
     }
 
-    public List<People> findAll() {
-	return repository.findAll();
+    public List<People> findAll(String username) {
+	return repository.findAll(username);
     }
 
     public Optional<People> findById(Long id) {
 	return repository.findById(id);
     }
 
-    @Transactional
-    public boolean deleteById(Long id) {
+    public boolean deleteById(Long peopleId, String username) {
 	try {
-	    fileService.deleteById(id);
-	    repository.deleteById(id);
+	    fileService.deleteById(peopleId);
+	    repository.deleteById(peopleId, username);
 	    return true;
 	} catch (IllegalArgumentException | EmptyResultDataAccessException e) {
 	    return false;
 	}
     }
     
-    public List<People> findByName(String name){
-	return repository.findByNameContains(name);
+    public List<People> findByName(String name, String username){
+	return repository.findByName(name, username);
     }
     
-    public List<People> findByGender(Gender gender){
-	return repository.findByGender(gender);
+    public List<People> findByGender(Gender gender, String username){
+	return repository.findByGender(gender, username);
     }
 }

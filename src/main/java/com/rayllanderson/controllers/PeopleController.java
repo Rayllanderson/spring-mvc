@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.File;
 import com.rayllanderson.entities.People;
+import com.rayllanderson.entities.User;
 import com.rayllanderson.entities.enums.Gender;
 import com.rayllanderson.reports.ReportUtil;
 import com.rayllanderson.repositories.ProfessionRepository;
@@ -38,24 +39,26 @@ public class PeopleController {
 
     @Autowired
     private PeopleService service;
-    
+
     @Autowired
     private FileService fileService;
 
     private final String MAIN_VIEW_NAME = "pages/people";
-    
+
     @Autowired
     private ProfessionRepository professionRepository;
-    
+
     @Autowired
     HttpServletRequest request;
 
     @Autowired
     private ReportUtil reportUtil;
 
-    @GetMapping()
+    private String username;
+
+    @GetMapping
     public ModelAndView listAll() {
-	List<People> peoples = service.findAll();
+	List<People> peoples = service.findAll(getUsername());
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", peoples);
 	mv.addObject("professions", professionRepository.findAllWithoutPeoples());
 	addEmptyPeople(mv);
@@ -63,11 +66,12 @@ public class PeopleController {
 	return mv;
     }
 
-    @PostMapping(consumes = {"multipart/form-data"})
+    @PostMapping(consumes = { "multipart/form-data" })
     public ModelAndView save(@Valid People people, BindingResult bindingResult, MultipartFile file) throws IOException {
 	if (bindingResult.hasErrors()) {
 	    return catchErrors(bindingResult, people);
 	}
+	people.setUser(new User(getUsername()));
 	people = service.save(people);
 	fileService.save(file, people.getId());
 	return listAll();
@@ -88,7 +92,7 @@ public class PeopleController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
-	service.deleteById(id);
+	service.deleteById(id, username);
 	return listAll();
     }
 
@@ -98,7 +102,7 @@ public class PeopleController {
 	if (nameIsEmpty) {
 	    return listAll();
 	}
-	List<People> peoples = service.findByName(name);
+	List<People> peoples = service.findByName(name, getUsername());
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", peoples);
 	request.getSession().setAttribute("peoples", peoples);
 	addEmptyPeople(mv);
@@ -110,10 +114,10 @@ public class PeopleController {
     public List<People> findByGender(@RequestBody String gender, HttpServletRequest request) {
 	List<People> peoples = new ArrayList<>();
 	try {
-	    peoples = service.findByGender(Gender.valueOf(gender));
+	    peoples = service.findByGender(Gender.valueOf(gender), username);
 	    return peoples;
 	} catch (IllegalArgumentException e) {
-	    peoples = service.findAll();
+	    peoples = service.findAll(getUsername());
 	    return peoples;
 	} finally {
 	    request.getSession().setAttribute("peoples", peoples);
@@ -124,7 +128,7 @@ public class PeopleController {
     public void pdfReportDownload(HttpServletResponse response) throws JRException, IOException {
 	@SuppressWarnings("unchecked")
 	List<People> peoples = (List<People>) request.getSession().getAttribute("peoples");
-	byte [] pdf = reportUtil.generateReport(peoples, "people", request.getServletContext());
+	byte[] pdf = reportUtil.generateReport(peoples, "people", request.getServletContext());
 	new File(null, pdf, "relatório", "application/pdf").download(response);
     }
 
@@ -139,5 +143,10 @@ public class PeopleController {
 	bindingResult.getAllErrors().forEach(x -> erros.add(x.getDefaultMessage()));
 	mv.addObject("msg", erros);
 	return mv;
+    }
+
+    private String getUsername() {
+	username = username == null ? (String) request.getSession().getAttribute("username") : username;
+	return username;
     }
 }

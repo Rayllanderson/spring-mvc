@@ -42,6 +42,9 @@ public class People implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date birthday;
+
+    @ManyToOne
+    private User user;
     
     @ManyToOne
     private Profession profession;
@@ -109,6 +112,14 @@ public class People implements Serializable {
 	this.birthday = birthday;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
     @Override
     public int hashCode() {
 	final int prime = 31;

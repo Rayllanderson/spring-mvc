@@ -1,9 +1,12 @@
 package com.rayllanderson.entities;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -33,11 +37,21 @@ public class User implements UserDetails {
     @NotEmpty(message = "senha não pode ser vazia")
     private String password;
     
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    List<People> peoples = new ArrayList<>();
+    
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="user_role",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name="role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    public User(String username) {
+	this.username = username;
+    }
+    
+    public User() {
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -3,6 +3,8 @@ package com.rayllanderson.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private HttpServletRequest request;
 
     @Transactional
     public User save(User user) {
@@ -42,7 +47,6 @@ public class UserService implements UserDetailsService {
 	return repository.findByUsernameContains(username);
     }
 
-    @Transactional
     public boolean deleteById(String username) {
 	try {
 	    repository.deleteById(username);
@@ -55,6 +59,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 	Optional<User> userFromDataBase = repository.findById(username);
+	request.getSession().setAttribute("username", username);
 	if (userFromDataBase.isEmpty()) {
 	    throw new UsernameNotFoundException("Usuário não encontrado.");
 	}

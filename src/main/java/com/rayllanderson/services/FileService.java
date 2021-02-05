@@ -27,7 +27,6 @@ public class FileService {
 	return repository.findById(peopleId);
     }
 
-    @Transactional
     public boolean deleteById(Long peopleId) {
 	try {
 	    repository.deleteById(peopleId);
@@ -39,7 +38,7 @@ public class FileService {
 
     @Transactional
     public void save(MultipartFile file, Long peopleId) throws IOException {
-	boolean hasFile = !file.isEmpty() || file.getSize() == 0;
+	boolean hasFile = !file.isEmpty() || !(file.getSize() == 0);
 	if (hasFile) {
 	    repository.save(new File(file.getBytes(), peopleId));
 	}
