@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.File;
@@ -35,7 +37,7 @@ import net.sf.jasperreports.engine.JRException;
 
 @Controller
 @RequestMapping("**/pessoas")
-public class PeopleController {
+public class PeopleController implements HandlerExceptionResolver {
 
     @Autowired
     private PeopleService service;
@@ -67,7 +69,8 @@ public class PeopleController {
     }
 
     @PostMapping(consumes = { "multipart/form-data" })
-    public ModelAndView save(@Valid People people, BindingResult bindingResult, MultipartFile file) throws IOException {
+    public ModelAndView save(@Valid People people, BindingResult bindingResult, MultipartFile file)
+	    throws IOException {
 	if (bindingResult.hasErrors()) {
 	    return catchErrors(bindingResult, people);
 	}
@@ -148,5 +151,14 @@ public class PeopleController {
     private String getUsername() {
 	username = username == null ? (String) request.getSession().getAttribute("username") : username;
 	return username;
+    }
+
+    @Override
+    public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
+	    Exception ex) {
+	if (ex instanceof MaxUploadSizeExceededException) {
+	    return listAll().addObject("msg", "Limite de upload Excedido. Máximo 50KB");
+	}
+	return null;
     }
 }

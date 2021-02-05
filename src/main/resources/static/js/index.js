@@ -1,3 +1,8 @@
+$(function(){
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+})
 function validation(nameFromDOM) {
 	const name = document.getElementById(nameFromDOM).value;
 	if (name) {

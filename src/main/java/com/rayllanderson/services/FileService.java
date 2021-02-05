@@ -40,7 +40,7 @@ public class FileService {
     public void save(MultipartFile file, Long peopleId) throws IOException {
 	boolean hasFile = !file.isEmpty() || !(file.getSize() == 0);
 	if (hasFile) {
-	    repository.save(new File(file.getBytes(), peopleId));
+	    repository.save(new File(peopleId, file.getBytes(), file.getOriginalFilename(), file.getContentType()));
 	}
     }
 }

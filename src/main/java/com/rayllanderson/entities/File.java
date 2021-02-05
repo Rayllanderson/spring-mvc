@@ -1,6 +1,8 @@
 package com.rayllanderson.entities;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,7 +22,7 @@ public class File implements Serializable {
     private String name;
     private String contentType;
 
-    public File(byte[] bytes, Long peopleId) {
+    public File( Long peopleId, byte[] bytes) {
 	this.bytes = bytes;
 	this.peopleId = peopleId;
     }
@@ -72,7 +74,7 @@ public class File implements Serializable {
 	try {
 	    String contentType = this.contentType == null ? "application/pdf" : this.contentType; 
 	    String fileType = contentType.split("/")[1];
-	    String fileName = this.name == null ? "Currículo" : this.name.split(fileType)[0];
+	    String fileName = this.name == null ? new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date()) : this.name.split(fileType)[0];
 	    response.setContentLength(this.bytes.length);
 	    response.setContentType(contentType);
 	    String headerKey = "Content-Disposition";
