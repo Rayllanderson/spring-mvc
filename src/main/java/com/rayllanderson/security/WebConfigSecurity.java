@@ -24,11 +24,14 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()//desabilitando as config padrões de memória
         .authorizeRequests() //permite restringir acessos
-        .antMatchers(HttpMethod.GET, "/").permitAll() //qualquer user acessa a url "/" inicial
+        .antMatchers(HttpMethod.GET, "/login").permitAll() //qualquer user acessa a url "/" inicial
+        .antMatchers(HttpMethod.POST, "/register").permitAll()
         .antMatchers(HttpMethod.GET, "/usuarios/**").hasAnyRole("ADMIN") //apenas admin podem acessar controller usuarios por GET
         .antMatchers(HttpMethod.POST, "/usuarios/**").hasAnyRole("ADMIN") //apenas admin podem acessar controller usuarios por POST
+        .antMatchers("/login", "/css/**", "/js/**", "/*.js", "/**.js", "/img/**").permitAll()
         .anyRequest().authenticated()
-        .and().formLogin().permitAll() // form login permite qualquer user
+        .and().formLogin().permitAll()
+        .loginPage("/login").defaultSuccessUrl("/") // form login permite qualquer user
         .and().logout() //mapeando URL de logout e invalida user atualmente logado
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
     }
