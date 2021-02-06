@@ -14,7 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rayllanderson.entities.Role;
 import com.rayllanderson.entities.User;
+import com.rayllanderson.entities.enums.RoleType;
+import com.rayllanderson.exceptions.UsernameExistsException;
 import com.rayllanderson.repositories.UserRepository;
 
 @Service
@@ -30,11 +33,23 @@ public class UserService implements UserDetailsService {
     private HttpServletRequest request;
 
     @Transactional
-    public User save(User user) {
+    public User save(User user) throws UsernameExistsException{
 	user.setPassword(passwordEncoder.encode(user.getPassword()));
 	return repository.save(user);
     }
-
+    
+    @Transactional
+    public User register(User user) throws UsernameExistsException{
+	user.setPassword(passwordEncoder.encode(user.getPassword()));
+	checkIfUsernameExists(user.getUsername());
+	user.getRoles().add(new Role(RoleType.ROLE_DEFAULT));
+	return repository.save(user);
+    }
+    
+//    public User update(User user) {
+//	return repository.update();
+//    }
+    
     public List<User> findAll() {
 	return repository.findAll();
     }
@@ -66,5 +81,11 @@ public class UserService implements UserDetailsService {
 	User user = userFromDataBase.get();
 	return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true,
 		true, true, true, user.getAuthorities());
+    }
+    
+    private void checkIfUsernameExists(String username) throws UsernameExistsException {
+	if(repository.existsById(username)) {
+	    throw new UsernameExistsException("There's already an User using the username" + username);
+	}
     }
 }
