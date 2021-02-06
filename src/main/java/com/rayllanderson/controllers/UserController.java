@@ -46,7 +46,7 @@ public class UserController {
 	service.save(user);
 	return listAll();
     }
-
+    
     @GetMapping("/edit/{username}")
     public ModelAndView edit(@PathVariable("username") String username) {
 	Optional<User> object = service.findById(username);

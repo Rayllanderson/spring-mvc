@@ -1,0 +1,28 @@
+
+<div th:fragment="navbar">
+	<head>
+	<meta charset="UTF-8"></head>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content: between">
+			<div class="container-fluid">
+			    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+			    data-bs-target="#nav" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+			      <span class="navbar-toggler-icon"></span>
+			    </button>
+				<div class="collapse navbar-collapse" id="nav">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a href="/" class="nav-link active" >Home</a>
+						</li>
+						<li class="nav-item">
+							<a href="/pessoas" class="nav-link active">Contatos</a>
+						</li>
+						<li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+							<a href="/usuarios" class="nav-link active">Usuários</a>
+						</li>
+					</ul>
+					<a class="text-decoration-none" href="/logout" style="color:white;">Logout</a>
+				 </div>
+			</div>
+		</nav>
+</div>
+		

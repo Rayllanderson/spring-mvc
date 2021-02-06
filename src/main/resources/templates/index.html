@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html
+ xmlns:th="http://www.thymeleaf.org"
+ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Home</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -15,11 +17,34 @@
 	integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
 	crossorigin="anonymous"></script>
 	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" 
+	integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+	
+<link rel="stylesheet" th:href="@{/css/style.css}">
+
 </head>
 <body>
-	<a class="nav-link active" href="/logout" >Logout</a>
-	<h1 class="text-center">Hello!</h1>
-	<a href="/pessoas">Acessar Pessoas</a>
-	<a href="/usuarios" sec:authorize="hasRole('ROLE_ADMIN')">Usuários</a>
+	<div th:replace="fragments/navbar :: navbar">...</div>
+
+	<div class="container">
+		<h1 class="text-center mt-5">Bem vindo(a)!</h1>
+		
+		<div class="row center mt-3">
+			<div class="col-auto mt-5 card-home">
+				<div class="card p-3 text-center">
+					<a href="/pessoas" class="nav-link">Contatos &nbsp; <i class="fas fa-address-card fa-lg"></i></a>
+				</div>
+			</div>
+			<div class="col-auto mt-5 card-home">	
+				<div class="card p-3 text-center">
+					<a href="/usuarios" class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')">Usuários &nbsp;<i class="fas fa-users fa-lg"></i></a>
+				</div>
+			</div>
+		</div>
+		<div class="login-infos mt-5">
+			<h3 class="text-center">Projeto básico utilizando a arquitetura MVC com Spring</h3>
+			<img alt="Spring logo" th:src="@{/img/spring-logo.svg}" class="img-fluid mx-auto d-block"  width="200" height="200">
+		</div>
+	</div>
 </body>
 </html>

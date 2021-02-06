@@ -77,3 +77,18 @@ html, body {
 	font-size: 20px;
 	font-weight: lighter;
 }
+
+.card-home a{
+	font-size: 19px;
+}
+
+.center {
+	justify-content: center;
+	display: flex;
+}
+
+.center-img{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
