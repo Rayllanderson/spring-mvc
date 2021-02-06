@@ -1,7 +1,14 @@
-$(function(){
-    if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
-    }
+
+function hideAlerts() {
+	$("#alert").hide();
+	$("#alertModal").hide();
+}
+
+$(function() {
+	if (window.history.replaceState) {
+		window.history.replaceState(null, null, window.location.href);
+		hideAlerts()
+	}
 })
 function validation(nameFromDOM) {
 	const name = document.getElementById(nameFromDOM).value;
@@ -40,8 +47,8 @@ $("#genders").on('change', function() {
 
 $("#searchGender").submit(function(event) {
 	event.preventDefault();
-	var post_url = $(this).attr("action");
-	var request_method = $(this).attr("method");
+	const post_url = $(this).attr("action");
+	const request_method = $(this).attr("method");
 	const data = $('#genders').val();
 	$.ajax({
 		url: post_url,
@@ -93,6 +100,85 @@ function hideCurriculumInfos(text) {
 	}
 }
 
+function normalAlert(msg, classe) {
+	$("#alert").show();
+	document.getElementById('alertMsg').innerHTML = msg;
+	document.getElementById("alert").className = classe;
+	$("#alert").fadeTo(2700, 500).slideUp(500, function() {
+		$("#alert").slideUp(500);
+	});
+}
+
+function modalAlert(msg, classe) {
+	$("#alertModal").show();
+	document.getElementById('alertMsgModal').innerHTML = msg;
+	document.getElementById("alertModal").className = classe;
+	$("#alertModal").fadeTo(2700, 500).slideUp(500, function() {
+		$("#alertModal").slideUp(500);
+	});
+}
+
+var isMobile = {
+	Android: function() {
+		return navigator.userAgent.match(/Android/i);
+	},
+	BlackBerry: function() {
+		return navigator.userAgent.match(/BlackBerry/i);
+	},
+	iOS: function() {
+		return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+	},
+	Opera: function() {
+		return navigator.userAgent.match(/Opera Mini/i);
+	},
+	Windows: function() {
+		return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+	},
+	any: function() {
+		return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+	}
+};
+
+if (isMobile.any()) {
+	$("#divBtnsLogin").css('width', '65%');
+} else {
+	$("#divBtnsLogin").css('width', '25%');
+}
+
+
+
+function clearRegisterForm() {
+	$('#registerUsername').val('');
+	$('#registerPassword').val('');
+	$('#registerPassword2').val('');
+}
+
+$('#formRegister').submit(function(e) {
+
+	e.preventDefault();
+	const post_url = $(this).attr("action");
+	const request_method = $(this).attr("method");
+
+	const username = $('#registerUsername').val();
+	const password = $('#registerPassword').val();
+	const password2 = $('#registerPassword2').val();
+
+	$.ajax({
+		method: request_method,
+		url: post_url,
+		data: {
+			username: username,
+			password: password,
+			password2: password2
+		}
+	}).done(function(response) {
+		normalAlert(response, "alert alert-success")
+		$('#registerModal').modal('hide')
+		clearRegisterForm()
+	}).fail(function(response) {
+		modalAlert(response.responseText, "alert alert-danger")
+	});
+})
 
 
 //código copiado de https://viacep.com.br/exemplo/jquery/
