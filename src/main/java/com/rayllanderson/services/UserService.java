@@ -26,6 +26,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
+    
+    @Autowired
+    private PeopleService peopleService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -36,6 +39,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public User save(User user) throws UsernameExistsException {
 	user.setPassword(passwordEncoder.encode(user.getPassword()));
+	user.checkIfUsernameExists(repository);
 	return repository.save(user);
     }
 
@@ -80,6 +84,7 @@ public class UserService implements UserDetailsService {
 
     public boolean deleteById(Long id) {
 	try {
+	    peopleService.findAll(id).forEach(x -> peopleService.deleteById(x.getId(), id));
 	    repository.deleteById(id);
 	    return true;
 	} catch (IllegalArgumentException | EmptyResultDataAccessException e) {

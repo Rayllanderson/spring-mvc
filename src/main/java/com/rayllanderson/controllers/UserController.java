@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rayllanderson.entities.Role;
 import com.rayllanderson.entities.User;
 import com.rayllanderson.entities.enums.RoleType;
+import com.rayllanderson.exceptions.UsernameExistsException;
 import com.rayllanderson.services.UserService;
 
 @Controller
@@ -42,11 +43,15 @@ public class UserController {
 	if (bindingResult.hasErrors()) {
 	    return catchErrors(bindingResult, user);
 	}
-	roles.forEach(x -> user.getRoles().add(new Role(RoleType.valueOf(x))));
-	service.save(user);
-	return listAll();
+	try {
+	    roles.forEach(x -> user.getRoles().add(new Role(RoleType.valueOf(x))));
+	    service.save(user);
+	    return listAll();
+	} catch (UsernameExistsException e) {
+	    return listAll().addObject("msg", "username já cadastrado");
+	}
     }
-    
+
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable("id") Long id) {
 	Optional<User> object = service.findById(id);
