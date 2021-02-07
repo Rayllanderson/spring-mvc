@@ -18,15 +18,15 @@ public class Address implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @NotNull
     @NotEmpty(message = "Cep não pode ser vazio")
     private String cep;
-    
+
     @NotNull
     @NotEmpty(message = "Cidade não pode ser vazia")
     private String city;
-    
+
     @NotNull
     @NotEmpty(message = "Estado não pode ser vazio")
     private String state;
@@ -34,8 +34,11 @@ public class Address implements Serializable {
     @ManyToOne
     private People people;
 
-    public Address() {
-    };
+    public Address() {};
+
+    public Address(Long id) {
+	this.id = id;
+    }
 
     public Address(Long id, String cep, String city, String state, People people) {
 	this.id = id;

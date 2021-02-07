@@ -32,6 +32,10 @@ public class Telephone {
 
     public Telephone() {
     }
+    
+    public Telephone(Long id) {
+	this.id = id;
+    }
 
     public Telephone(Long id, PhoneType type, String number) {
 	super();
