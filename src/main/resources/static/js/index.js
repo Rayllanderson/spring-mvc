@@ -4,10 +4,15 @@ function hideAlerts() {
 	$("#alertModal").hide();
 }
 
+const isOnInfoPage = $('body.info-page').length > 0;
+
 $(function() {
 	if (window.history.replaceState) {
 		window.history.replaceState(null, null, window.location.href);
 		hideAlerts()
+		if (isOnInfoPage){
+			changeInfosElementsColors();
+		}
 	}
 })
 function validation(nameFromDOM) {
@@ -180,6 +185,28 @@ $('#formRegister').submit(function(e) {
 	});
 })
 
+function changeFontColor(condition, div, successHexColor, failHexColor) {
+	if (condition) {
+		div.css('color', successHexColor);
+	} else {
+		div.css('color', failHexColor);
+	}}
+
+var color = {
+	cian : '#0dcaf0',
+	pink : '#d63384',
+	green : '#198754',
+	red : '#dc3545'
+}
+
+function changeInfosElementsColors(){
+	const textGender = $("#textInfoGender");
+	const textCurriculum = $("#textInfoCurriculum");
+	const isMale = textGender.text() == 'Masculino';
+	const hasResume = textCurriculum.text() == 'Sim';
+	changeFontColor(isMale, textGender, color.cian, color.pink);
+	changeFontColor(hasResume, textCurriculum, color.green, color.red);
+}
 
 //código copiado de https://viacep.com.br/exemplo/jquery/
 $(document).ready(function() {

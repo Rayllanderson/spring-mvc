@@ -22,7 +22,7 @@
 	
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
+<body class="info-page">
 		
 	<div th:replace="fragments/navbar :: navbar">...</div>
 		
@@ -36,12 +36,12 @@
 		<div class="card card-table mt-2 mb-2">
 			<div class="people-infos mb-3" style="display: inline-block;">
 				<h2 th:text="${people.name}"></h2>
-				<label> <i class="fas fa-birthday-cake"></i> Data de Nascimento: </label> <span th:text="${people.birthday}"></span>
+				<label title="Data de Nascimento"> <i class="fas fa-birthday-cake"></i> Data Nasc. : </label> <span class="text-primary" th:text="${people.birthday}"></span>
 				<br>
-				<label> <i class="fas fa-briefcase"></i> Profissão: </label> <span th:text="${people.profession.name}"></span>
+				<label> <i class="fas fa-briefcase"></i> Profissão: </label> <span class="text-primary" th:text="${people.profession.name}"></span>
 				<br>
-				<label> <i class="fas fa-venus-mars"></i> Genero: </label> <span th:text="${people.gender.name}"></span> <br>
-				<label style="display: inline-block;"> <i class="fas fa-file-word"></i> Possui currículo? </label> <span th:text="${hasCurriculum}"></span>
+				<label> <i class="fas fa-venus-mars"></i> Genero: </label> <span id="textInfoGender" th:text="${people.gender.name}"></span> <br>
+				<label style="display: inline-block;"> <i class="fas fa-file-word"></i> Possui currículo? </label> <span id="textInfoCurriculum" th:text="${hasCurriculum}"></span>
 				<hr>
 			</div>
 		</div>
@@ -55,27 +55,26 @@
 					<p class="text-center" style="margin-bottom: -10px">Cadastrar Telefone</p>
 					<input th:value="${people.id}" style="display: none" name="peopleId" readonly />
 					<input th:field="*{id}" style="display: none" name="id"/>
-					<div class="row g-3 align-items-center mb-3 mt-1">
-						<div class="col-auto" >
+					<div class="row g-2 align-items-center mb-3 mt-1">
+						<div class="col-4" >
 							<select th:field="*{type}" class="form-select">
 								<option th:value="'CELULAR'" th:text="Celular">Celular</option>
 							    <option th:value="'RESIDENCIAL'" th:text="Residencial"></option>
 							</select>
 						</div>
-						
-						<div class="col-auto" >
+						<div class="col-8">
 							<input type="text" class="form-control" placeholder="Número do Telefone" id="numero" name="number" th:field="*{number}" />
 						</div>
-						<div class="col-auto">
 							<button type="submit" class="btn btn-primary">Salvar</button>
-						</div>
 					</div>
 				</form>
 			</div>
 		
+		<hr>
+		
 			<!-- SEARCH -->
 			<form action="/telefones/search" method="POST" class="center-search">
-				<div class="search-body mb-3 col-6" >
+				<div class="search-body mb-3 col-8 col-md-5" >
 					<p class="text-center">Procurar Telefone</p>
 					<div class="input-group mb-3">
 						<input type="text" class="form-control" name="number">
@@ -87,7 +86,7 @@
 		
 		
 			<!--  TABLE -->
-			<table class="table table-hover">
+			<table class="table table-striped ">
 				<thead>
 					<tr>
 						<th>Tipo</th>
@@ -116,26 +115,30 @@
 					<p class="text-center" style="margin-bottom: -10px">Cadastrar</p>
 					<input th:value="${people.id}" style="display: none" name="peopleId" readonly />
 					<input th:field="*{id}" style="display: none" name="id"/>
-					<div class="row g-3 align-items-center mb-3 mt-1">
-						<div class="col-auto" >
+					<div class="row g-3 align-items-center center mb-3 mt-1">
+						<div class="col-8 col-md-5" >
 							<input type="text" class="form-control" placeholder="CEP" id="cep" name="cep" th:field="*{cep}" />
 						</div>
-						
-						<div class="col-auto" >
+						<div class="w-100"></div>
+						<div class="col-8 col-md-5" >
 							<input type="text" class="form-control" placeholder="Estado" id="state" name="state" th:field="*{state}" />
 						</div>
-						
-						<div class="col-auto" >
+						<div class="w-100"></div>
+						<div class="col-8 col-md-5" >
 							<input type="text" class="form-control" placeholder="Cidade" id="city" name="city" th:field="*{city}" />
 						</div>
-						<div class="col-auto">
+						<div class="w-100"></div>
+						<div class="col-8 col-md-5">
 							<button type="submit" class="btn btn-primary">Cadastrar</button>
 						</div>
 					</div>
 				</form>
 			</div>
 			
+			<hr>
+			<p class="text-center">Cadastrados</p>
 			<div class="address-list-container mt-3 mb-3">
+				
 	        	<div class="address-list-items">
 					<div class="address-card-container" th:each="address : ${addresses}" >
 						<div class="address-item-head">
@@ -185,11 +188,11 @@
 	<script type="text/javascript" th:src="@{/js/index.js}"></script>
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
-		
 			$(function(){
 				var hasCurriculum = /*[[${hasCurriculum}]]*/ 'default';
 				hideCurriculumInfos(hasCurriculum)
 			});
+			
 		/*]]>*/
 	</script>
 </body>

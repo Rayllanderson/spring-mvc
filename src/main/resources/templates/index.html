@@ -35,9 +35,14 @@
 					<a href="/pessoas" class="nav-link">Contatos &nbsp; <i class="fas fa-address-card fa-lg"></i></a>
 				</div>
 			</div>
-			<div class="col-auto mt-5 card-home">	
+			<div class="col-auto mt-5 card-home">
 				<div class="card p-3 text-center">
-					<a href="/usuarios" class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')">Usuários &nbsp;<i class="fas fa-users fa-lg"></i></a>
+					<a href="/pessoas" class="nav-link">Conta &nbsp; <i class="fas fa-address-card fa-lg"></i></a>
+				</div>
+			</div>
+			<div class="col-auto mt-5 card-home" sec:authorize="hasRole('ROLE_ADMIN')">	
+				<div class="card p-3 text-center">
+					<a href="/usuarios" class="nav-link" >Usuários &nbsp;<i class="fas fa-users fa-lg"></i></a>
 				</div>
 			</div>
 		</div>

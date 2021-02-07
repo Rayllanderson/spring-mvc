@@ -38,36 +38,36 @@
 			<form method="POST" action="/pessoas" th:object="${people}" enctype="multipart/form-data" onsubmit="return validation('name')">
 				<div class="row justify-content-center mb-2">
 					<input style="display: none" th:field="*{id}" name="id"/>
-						<div class="col-6" >
+						<div class="col-6 col-md-5" >
 							<label for="name" class="col-form-label">Nome </label>
 							<input type="text" class="form-control" placeholder="Nome" id="name" name="name" th:field="*{name}" />
 						</div>
 						<div class="w-100"></div>
-						<div class="col-6" >
+						<div class="col-6 col-md-5" >
 							<label for="name" class="col-form-label">Gênero </label>
 							<select th:field="*{gender}" class="form-select">
 								<option th:each = "g : ${T(com.rayllanderson.entities.enums.Gender).values()}" th:value="${g}" th:text="${g.name}"/>
 							</select>
 						</div>
 						<div class="w-100"></div>
-						<div class="col-6" >
+						<div class="col-6 col-md-5" >
 							<label class="col-form-label">Profissão </label>
 							<select th:field="*{profession}" class="form-select">
 								<option th:each="profession : ${professions}" th:value="${profession.id}" th:text="${profession.name}"></option>
 							</select>
 						</div>
 						<div class="w-100"></div>
-						<div class="col-6" >
+						<div class="col-6 col-md-5" >
 							<label class="col-form-label">Data de Nascimento </label>
 							<input type="date" th:field="*{birthday}" class="form-control" />
 						</div>
 						<div class="w-100"></div>
-						<div class="col-6">
+						<div class="col-6 col-md-5">
 							<label class="col-form-label">Currículo (Max. 50KB)</label>
 							<input type="file" name="file" class="form-control" />
 						</div>
 						<div class="w-100 mb-3"></div>
-						<div class="col-6  mb-2">
+						<div class="col-6 col-md-5 mb-2">
 							<button type="submit" class="btn btn-primary d-flex justify-content-end">Salvar</button>
 						</div>
 				</div>
@@ -82,7 +82,7 @@
 				
 				<!-- SEARCH -->
 				<form action="/pessoas/search" method="POST" id="searchGender" class="mb-2 form-search">
-						<div class="col-6">
+						<div class="col-6 col-md-3">
 							<h5 class="text-center">Filtrar por genero</h5>
 							<select class="form-select" id="genders" name="gender">
 								<option value="null">Selecione um genero</option>
@@ -94,7 +94,7 @@
 				
 				<!-- SEARCH -->
 				<form action="/pessoas/search" method="GET" id="searchName" class="form-search">
-						<div class="col-8">
+						<div class="col-8 col-md-5">
 							<h5 class="text-center">Filtrar por nome</h5>
 							<div class="input-group mb-3">
 								<input type="text" class="form-control" name="name">
@@ -104,7 +104,7 @@
 				</form>
 				<form action="/pessoas/pdf-report-download" method="get">
 					<div class="col-auto">
-						<button class="btn btn-outline-primary" type="submit" id="generatePdf">Gerar PDF</button>
+						<button class="btn btn-outline-primary" type="submit" id="generatePdf">Gerar Relatório (PDF)</button>
 					</div>
 				</form>
 			</div>
@@ -112,7 +112,7 @@
 		</fieldset>
 		<div class="card card-table">
 			<!--  TABLE -->
-			<table class="table table-sm table-hover" id="peopleTable">
+			<table class="table table-sm table-borderless table-hover" id="peopleTable">
 				<thead>
 					<tr>
 						<th>ID</th>
