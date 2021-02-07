@@ -53,7 +53,6 @@ public class UserController {
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
 	if (object.isPresent()) {
 	    User user = object.get();
-	    user.setPassword(null);
 	    mv.addObject("user", user);
 	} else {
 	    addEmptyUser(mv);
