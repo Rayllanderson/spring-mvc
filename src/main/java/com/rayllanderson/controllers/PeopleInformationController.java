@@ -53,7 +53,7 @@ public class PeopleInformationController {
 	    addEmptyAddress(mv);
 	    return mv;
 	} catch (Exception e) {
-	    return new ModelAndView("pages/people");
+	    return new ModelAndView("pages/contact");
 	}
     }
 

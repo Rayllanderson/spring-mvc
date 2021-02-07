@@ -13,4 +13,12 @@ public interface AddressRepository extends JpaRepository<Address, Long>{
     @Query("select a from Address a where a.people.id = :id")
     public List<Address> findAddressesByPeopleId(@Param("id") Long peopleId);
     
+    /**
+     * seleciona apenas o atributo id.
+     * @param peopleId
+     * @return apenas o atributo ID
+     */
+    @Query("select NEW Address(a.id) from Address a where a.people.id = :id")
+    public List<Address> addressesIdByPeopleId(@Param("id") Long peopleId);
+    
 }

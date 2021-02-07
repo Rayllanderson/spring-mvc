@@ -13,17 +13,17 @@ import com.rayllanderson.entities.enums.Gender;
 
 public interface PeopleRepository extends JpaRepository<People, Long>{
     
-    @Query("from People as p where p.user.username = :username")
-    List<People> findAll(@Param("username") String username);
+    @Query("from People as p where p.user.id = :id")
+    List<People> findAll(@Param("id") Long userId);
     
-    @Query("from People as p where p.name like concat('%', :name, '%') and p.user.username = :username")
-    List<People> findByName(@Param("name") String name, @Param("username") String username);
+    @Query("from People as p where p.name like concat('%', :name, '%') and p.user.id = :id")
+    List<People> findByName(@Param("name") String name, @Param("id") Long userId);
     
-    @Query("from People as p where p.gender = :gender and p.user.username = :username")
-    List<People> findByGender(@Param("gender") Gender gender, @Param("username") String username);
+    @Query("from People as p where p.gender = :gender and p.user.id = :id")
+    List<People> findByGender(@Param("gender") Gender gender, @Param("id") Long userId);
     
     @Transactional
     @Modifying
-    @Query("delete from People as p where p.id = :peopleId and p.user.username = :username")
-    void deleteById(@Param("peopleId") Long peopleId, @Param("username") String username);
+    @Query("delete from People as p where p.id = :peopleId and p.user.id = :id ")
+    void deleteById(@Param("peopleId") Long peopleId, @Param("id") Long userId);
 }

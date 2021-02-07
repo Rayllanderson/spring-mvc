@@ -40,19 +40,19 @@ public class PeopleService {
 	return repository.save(people);
     }
 
-    public List<People> findAll(String username) {
-	return repository.findAll(username);
+    public List<People> findAll(Long userId) {
+	return repository.findAll(userId);
     }
 
     public Optional<People> findById(Long id) {
 	return repository.findById(id);
     }
 
-    public boolean deleteById(Long peopleId, String username) {
+    public boolean deleteById(Long peopleId, Long userId) {
 	try {
 	    addressRepository.addressesIdByPeopleId(peopleId).forEach(x -> addressService.deleteById(x.getId()));
 	    telephoneRepository.phonesIdByPeopleId(peopleId).forEach(x -> telephoneService.deleteById(x.getId()));
-	    repository.deleteById(peopleId, username);
+	    repository.deleteById(peopleId, userId);
 	    fileService.deleteById(peopleId);
 	    return true;
 	} catch (IllegalArgumentException | EmptyResultDataAccessException e) {
@@ -60,11 +60,11 @@ public class PeopleService {
 	}
     }
     
-    public List<People> findByName(String name, String username){
-	return repository.findByName(name, username);
+    public List<People> findByName(String name, Long userId){
+	return repository.findByName(name, userId);
     }
     
-    public List<People> findByGender(Gender gender, String username){
-	return repository.findByGender(gender, username);
+    public List<People> findByGender(Gender gender, Long userId){
+	return repository.findByGender(gender, userId);
     }
 }

@@ -15,4 +15,12 @@ public interface TelephoneRepository extends JpaRepository<Telephone, Long>{
     
     @Query("select t from Telephone t where t.number like concat('%', :number, '%') and t.people.id = :peopleId")
     public List<Telephone> findByNumber(@Param("number") String number, @Param("peopleId") Long peopleId);
+    
+    /**
+     * seleciona apenas o atributo id.
+     * @param peopleId
+     * @return apenas o atributo ID
+     */
+    @Query("select NEW Telephone(t.id) from Telephone t where t.people.id = :id")
+    public List<Telephone> phonesIdByPeopleId(@Param("id") Long peopleId);
 }

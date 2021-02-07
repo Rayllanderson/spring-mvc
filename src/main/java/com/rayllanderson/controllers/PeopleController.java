@@ -32,20 +32,21 @@ import com.rayllanderson.reports.ReportUtil;
 import com.rayllanderson.repositories.ProfessionRepository;
 import com.rayllanderson.services.FileService;
 import com.rayllanderson.services.PeopleService;
+import com.rayllanderson.util.SessionUtil;
 
 import net.sf.jasperreports.engine.JRException;
 
 @Controller
-@RequestMapping("**/pessoas")
+@RequestMapping("**/contatos")
 public class PeopleController implements HandlerExceptionResolver {
 
     @Autowired
     private PeopleService service;
-
+    
     @Autowired
     private FileService fileService;
 
-    private final String MAIN_VIEW_NAME = "pages/people";
+    private final String MAIN_VIEW_NAME = "pages/contact";
 
     @Autowired
     private ProfessionRepository professionRepository;
@@ -55,12 +56,10 @@ public class PeopleController implements HandlerExceptionResolver {
 
     @Autowired
     private ReportUtil reportUtil;
-
-    private String username;
-
+    
     @GetMapping
     public ModelAndView listAll() {
-	List<People> peoples = service.findAll(getUsername());
+	List<People> peoples = service.findAll(getUserId());
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", peoples);
 	mv.addObject("professions", professionRepository.findAllWithoutPeoples());
 	addEmptyPeople(mv);
@@ -74,7 +73,7 @@ public class PeopleController implements HandlerExceptionResolver {
 	if (bindingResult.hasErrors()) {
 	    return catchErrors(bindingResult, people);
 	}
-	people.setUser(new User(getUsername()));
+	people.setUser(new User(getUserId()));
 	people = service.save(people);
 	fileService.save(file, people.getId());
 	return listAll();
@@ -95,7 +94,7 @@ public class PeopleController implements HandlerExceptionResolver {
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) {
-	service.deleteById(id, username);
+	service.deleteById(id, getUserId());
 	return listAll();
     }
 
@@ -105,7 +104,7 @@ public class PeopleController implements HandlerExceptionResolver {
 	if (nameIsEmpty) {
 	    return listAll();
 	}
-	List<People> peoples = service.findByName(name, getUsername());
+	List<People> peoples = service.findByName(name, getUserId());
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME, "peoples", peoples);
 	request.getSession().setAttribute("peoples", peoples);
 	addEmptyPeople(mv);
@@ -117,10 +116,10 @@ public class PeopleController implements HandlerExceptionResolver {
     public List<People> findByGender(@RequestBody String gender, HttpServletRequest request) {
 	List<People> peoples = new ArrayList<>();
 	try {
-	    peoples = service.findByGender(Gender.valueOf(gender), username);
+	    peoples = service.findByGender(Gender.valueOf(gender), getUserId());
 	    return peoples;
 	} catch (IllegalArgumentException e) {
-	    peoples = service.findAll(getUsername());
+	    peoples = service.findAll(getUserId());
 	    return peoples;
 	} finally {
 	    request.getSession().setAttribute("peoples", peoples);
@@ -148,11 +147,6 @@ public class PeopleController implements HandlerExceptionResolver {
 	return mv;
     }
 
-    private String getUsername() {
-	username = username == null ? (String) request.getSession().getAttribute("username") : username;
-	return username;
-    }
-
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
 	    Exception ex) {
@@ -160,5 +154,9 @@ public class PeopleController implements HandlerExceptionResolver {
 	    return listAll().addObject("msg", "Limite de upload Excedido. Máximo 50KB");
 	}
 	return null;
+    }
+    
+    private Long getUserId() {
+	return SessionUtil.getUserId(request);
     }
 }

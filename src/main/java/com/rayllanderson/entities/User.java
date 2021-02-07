@@ -127,10 +127,6 @@ public class User implements UserDetails {
 	this.id = id;
     }
 
-    public List<People> getPeoples() {
-	return peoples;
-    }
-
     /**
      * Verifica se o username atual já está em uso por outro usuário
      * 
