@@ -47,9 +47,9 @@ public class UserController {
 	return listAll();
     }
     
-    @GetMapping("/edit/{username}")
-    public ModelAndView edit(@PathVariable("username") String username) {
-	Optional<User> object = service.findById(username);
+    @GetMapping("/edit/{id}")
+    public ModelAndView edit(@PathVariable("id") Long id) {
+	Optional<User> object = service.findById(id);
 	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
 	if (object.isPresent()) {
 	    User user = object.get();
@@ -60,9 +60,9 @@ public class UserController {
 	return mv;
     }
 
-    @GetMapping("/delete/{username}")
-    public ModelAndView delete(@PathVariable("username") String username) {
-	service.deleteById(username);
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable("id") Long id) {
+	service.deleteById(id);
 	return listAll();
     }
 

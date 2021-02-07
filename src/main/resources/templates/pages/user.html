@@ -39,6 +39,7 @@
 			<div style="display: flex; justify-content: center">
 				<form method="POST" action="/usuarios" th:object="${user}" onsubmit="return userValidation('username', 'password')">
 					<div class="row g-3 align-items-center mb-3 mt-1">
+						<input style="display: none" th:field="*{id}" name="id"/>
 						<div class="col-12" >
 							<input type="text" class="form-control" placeholder="Username" id="username" name="username" th:field="*{username}" />
 						</div><div></div>
@@ -92,8 +93,8 @@
 				<tbody>
 					<tr th:each="user : ${users}">
 						<td th:text="${user.username}"></td>
-						<td> <a class="btn btn-outline-primary" th:href="@{/usuarios/edit/{username}(username=${user.username})}"><i class="fas fa-edit"></i></a> </td>
-						<td> <a class="btn btn-outline-danger" th:href="@{/usuarios/delete/{username}(username=${user.username})}"><i class="fas fa-trash-alt"></i></a> </td>
+						<td> <a class="btn btn-outline-primary" th:href="@{/usuarios/edit/{id}(id=${user.id})}"><i class="fas fa-edit"></i></a> </td>
+						<td> <a class="btn btn-outline-danger" th:href="@{/usuarios/delete/{id}(id=${user.id})}"><i class="fas fa-trash-alt"></i></a> </td>
 					</tr>
 				</tbody>
 			</table>
