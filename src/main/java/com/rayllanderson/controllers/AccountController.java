@@ -3,6 +3,7 @@ package com.rayllanderson.controllers;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rayllanderson.entities.User;
 import com.rayllanderson.exceptions.UsernameExistsException;
+import com.rayllanderson.exceptions.WrongPasswordException;
 import com.rayllanderson.services.UserService;
 import com.rayllanderson.util.SessionUtil;
 
@@ -27,6 +30,9 @@ public class AccountController {
     
     @Autowired
     private HttpServletRequest request;
+    
+    @Autowired
+    private HttpServletResponse response;
     
     private final String MAIN_VIEW_NAME = "pages/account";
 
@@ -60,6 +66,19 @@ public class AccountController {
 	return mv;
     }
     
+    @ResponseBody
+    @PostMapping("change-password")
+    public String changePassword(@RequestParam String currentPassword, @RequestParam String newPassword) {
+	try {
+	    service.changePassword(currentPassword, newPassword);
+	    return reponse("senha alterada com sucesso", 200);
+	}catch (IllegalArgumentException e) {
+	    return reponse("um ou mais campos estão vazios", 400);
+	}catch (WrongPasswordException e) {
+	    return reponse("a atual senha digitada não corresponde com a atual senha registrada", 400);
+	}
+    }
+    
     private ModelAndView reponse(String message, int code, ModelAndView mv) {
 	boolean success = code >= 200 && code < 300;
 	if (success) 
@@ -68,6 +87,13 @@ public class AccountController {
 	    mv.addObject("alertClass", "alert-danger");
 	mv.addObject("msg", message);
 	 return mv;
+    }
+    
+    private String reponse(String message, int code) {
+	response.setContentType("text/plain");
+	response.setCharacterEncoding("UTF-8");
+	response.setStatus(code);
+	return message;
     }
 
 }

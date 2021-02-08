@@ -18,6 +18,7 @@ import com.rayllanderson.entities.Role;
 import com.rayllanderson.entities.User;
 import com.rayllanderson.entities.enums.RoleType;
 import com.rayllanderson.exceptions.UsernameExistsException;
+import com.rayllanderson.exceptions.WrongPasswordException;
 import com.rayllanderson.repositories.UserRepository;
 import com.rayllanderson.util.SessionUtil;
 
@@ -69,6 +70,29 @@ public class UserService implements UserDetailsService {
 	}
 	throw new IllegalArgumentException("Invalid Username");
     }
+    
+    /**
+     * 
+     * @param currentPassword - para confirmar se é mesmo o usuário
+     * @param newPassword - nova senha a ser registrada
+     * @throws IllegalArgumentException caso os campos estejam vazios
+     * @throws WrongPasswordException a valor na variavel currentPassword não corresponde com a senha cadastrada no banco
+     */
+    public void changePassword(String currentPassword, String newPassword) throws IllegalArgumentException, WrongPasswordException{
+	boolean passwordsIsInvalid = currentPassword.isBlank() || newPassword.isBlank();
+	if (passwordsIsInvalid) throw new IllegalArgumentException("The fields (passwords) are empty");
+	Long userId = SessionUtil.getUserId(request);
+	Optional<User> userFromDatabase = repository.findById(userId);
+	userFromDatabase.orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+	User user = userFromDatabase.get();
+	boolean currentPasIsValid = currentPasswordIsValid(currentPassword, user.getPassword());
+	if(currentPasIsValid) {
+	    user.setPassword(this.passwordEncoder.encode(newPassword));
+	    repository.save(user);
+	}else {
+	    throw new WrongPasswordException("The value on the variable currentPassword is not the same as the registred password");
+	}
+    }
 
     public List<User> findAll() {
 	return repository.findAll();
@@ -100,6 +124,10 @@ public class UserService implements UserDetailsService {
 	request.getSession().setAttribute("userId", user.getId());
 	return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true,
 		true, true, true, user.getAuthorities());
+    }
+    
+    private boolean currentPasswordIsValid(String currentPassword, String currentPasFromDatabase) {
+	return this.passwordEncoder.matches(currentPassword, currentPasFromDatabase);
     }
 }
 

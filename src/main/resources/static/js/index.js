@@ -149,13 +149,14 @@ if (isMobile.any()) {
 } else {
 	$("#divBtnsLogin").css('width', '25%');
 }
-
-
-
 function clearRegisterForm() {
 	$('#registerUsername').val('');
 	$('#registerPassword').val('');
 	$('#registerPassword2').val('');
+}
+function clearPasswordForm() {
+	$('#currentPassword').val('');
+	$('#newPassword').val('');
 }
 
 $('#formRegister').submit(function(e) {
@@ -185,12 +186,35 @@ $('#formRegister').submit(function(e) {
 	});
 })
 
+$('#formPassword').submit(function(e){
+	e.preventDefault();
+	const currentPassword = $('#currentPassword').val();
+	const newPassword = $('#newPassword').val();
+	const url = $(this).attr('action');
+	const method = $(this).attr('method');
+	$.ajax({
+		method: method,
+		url: url,
+		data: {
+			currentPassword : currentPassword,
+			newPassword : newPassword
+		}
+	}).done(function(response){
+		normalAlert(response, 'alert alert-success')
+		$('#passwordModal').modal('hide');
+		clearPasswordForm();
+	}).fail(function(response){
+		modalAlert(response.responseText, 'alert alert-danger');
+	});
+})
+
 function changeFontColor(condition, div, successHexColor, failHexColor) {
 	if (condition) {
 		div.css('color', successHexColor);
 	} else {
 		div.css('color', failHexColor);
-	}}
+	}
+}
 
 var color = {
 	cian : '#0dcaf0',

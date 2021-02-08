@@ -1,20 +1,14 @@
 package com.rayllanderson;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.rayllanderson.entities.User;
-import com.rayllanderson.exceptions.UsernameExistsException;
 import com.rayllanderson.repositories.UserRepository;
 import com.rayllanderson.services.UserService;
 
