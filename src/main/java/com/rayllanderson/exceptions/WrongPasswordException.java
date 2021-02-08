@@ -1,7 +1,7 @@
 package com.rayllanderson.exceptions;
 
 /**
- * Deverá ser lançada quando já existir um usuário com username especificado.
+ * Deverá ser lançada quando a senha digitada não corresponde a senha atual cadastrada
  * @author Ray
  *
  */

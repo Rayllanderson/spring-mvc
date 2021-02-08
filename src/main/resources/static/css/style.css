@@ -2,6 +2,7 @@ html, body {
 	margin: 0;
 	padding: 0;
 	background-color: #E9EAED;
+	height: 100%;
 }
 
 .address-list-container {
@@ -52,24 +53,25 @@ html, body {
 	display: flex;
 }
 
-.card{
-	border-radius: 1em; 
+.card {
+	border-radius: 1em;
 }
 
-.card-table{
+.card-table {
 	padding: 20px;
 }
 
-.center-search{
-	display: flex; justify-content: center;
+.center-search {
+	display: flex;
+	justify-content: center;
 }
 
-.people-infos{
+.people-infos {
 	padding: 10px;
 	margin-left: 20px;
 }
 
-.people-infos label{
+.people-infos label {
 	font-size: 22px;
 }
 
@@ -77,7 +79,7 @@ html, body {
 	font-size: 20px;
 }
 
-.card-home a{
+.card-home a {
 	font-size: 19px;
 }
 
@@ -86,8 +88,87 @@ html, body {
 	display: flex;
 }
 
-.center-img{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.center-img {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+/* FOOTER  #1C2833*/
+
+.footer {
+	background-color: #283848;
+	color: white;
+	position: relative;
+}
+
+.footer a {
+	text-decoration: none
+}
+
+footer #hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid white !important;
+	margin: 1em 0;
+	padding: 0;
+}
+
+.footer-copyright {
+	background-color: #1A252F;
+}
+
+.btn-social {
+  border-radius: 0.5em;
+  display: inline-flex;
+  width: 2.50rem;
+  height: 2.50rem;
+  font-size: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons a {
+	text-decoration: none;
+}
+
+
+.content {
+	min-height: 100%;
+	position: relative;
+}
+
+.divider-custom {
+  margin: 1.25rem 0 1.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.divider-custom .divider-custom-line {
+  width: 100%;
+  max-width: 7rem;
+  height: 0.25rem;
+  background-color: #2c3e50;
+  border-radius: 1rem;
+  border-color: #2c3e50 !important;
+}
+.divider-custom .divider-custom-line:first-child {
+  margin-right: 1rem;
+}
+.divider-custom .divider-custom-line:last-child {
+  margin-left: 1rem;
+}
+.divider-custom .divider-custom-icon {
+  color: #2c3e50 !important;
+  font-size: 2rem;
+  width: 40px;
+}
+.divider-custom.divider-light .divider-custom-line {
+  background-color: #283848;
+}
+.divider-custom.divider-light .divider-custom-icon {
+  color: #283848 !important;
 }

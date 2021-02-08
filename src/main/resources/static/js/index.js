@@ -5,16 +5,27 @@ function hideAlerts() {
 }
 
 const isOnInfoPage = $('body.info-page').length > 0;
+const isOnHomePage = $('body.home-page').length > 0;
+const isOnLoginPage = $('body.login-page').length > 0;
+
 
 $(function() {
 	if (window.history.replaceState) {
 		window.history.replaceState(null, null, window.location.href);
 		hideAlerts()
-		if (isOnInfoPage){
+		if (isOnInfoPage) {
 			changeInfosElementsColors();
 		}
+		if (isOnLoginPage) {
+			changeSizeBtnIfMobile();
+		}
+		if (isOnHomePage) {
+			changeCardHomeSize();
+		}
 	}
-})
+});
+
+
 function validation(nameFromDOM) {
 	const name = document.getElementById(nameFromDOM).value;
 	if (name) {
@@ -144,11 +155,20 @@ var isMobile = {
 	}
 };
 
-if (isMobile.any()) {
-	$("#divBtnsLogin").css('width', '65%');
-} else {
-	$("#divBtnsLogin").css('width', '25%');
+
+function changeSizeBtnIfMobile() {
+	if (isMobile.any()) {
+		$("#divBtnsLogin").css('width', '65%');
+	} else {
+		$("#divBtnsLogin").css('width', '25%');
+	}
 }
+
+function changeCardHomeSize() {
+	if (!isMobile.any())
+		$('#cardHome').css('width', '50%')
+}
+
 function clearRegisterForm() {
 	$('#registerUsername').val('');
 	$('#registerPassword').val('');
@@ -186,7 +206,7 @@ $('#formRegister').submit(function(e) {
 	});
 })
 
-$('#formPassword').submit(function(e){
+$('#formPassword').submit(function(e) {
 	e.preventDefault();
 	const currentPassword = $('#currentPassword').val();
 	const newPassword = $('#newPassword').val();
@@ -196,14 +216,14 @@ $('#formPassword').submit(function(e){
 		method: method,
 		url: url,
 		data: {
-			currentPassword : currentPassword,
-			newPassword : newPassword
+			currentPassword: currentPassword,
+			newPassword: newPassword
 		}
-	}).done(function(response){
+	}).done(function(response) {
 		normalAlert(response, 'alert alert-success')
 		$('#passwordModal').modal('hide');
 		clearPasswordForm();
-	}).fail(function(response){
+	}).fail(function(response) {
 		modalAlert(response.responseText, 'alert alert-danger');
 	});
 })
@@ -217,13 +237,13 @@ function changeFontColor(condition, div, successHexColor, failHexColor) {
 }
 
 var color = {
-	cian : '#0dcaf0',
-	pink : '#d63384',
-	green : '#198754',
-	red : '#dc3545'
+	cian: '#0dcaf0',
+	pink: '#d63384',
+	green: '#198754',
+	red: '#dc3545'
 }
 
-function changeInfosElementsColors(){
+function changeInfosElementsColors() {
 	const textGender = $("#textInfoGender");
 	const textCurriculum = $("#textInfoCurriculum");
 	const isMale = textGender.text() == 'Masculino';

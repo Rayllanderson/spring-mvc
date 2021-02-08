@@ -60,7 +60,7 @@ public class PeopleInformationController {
 	    addEmptyAddress(mv);
 	    return mv;
 	} catch (NoSuchElementException e) {
-	    return peopleController.listAll().addObject("msg", "Pessoa não encontrada nos seus contatos");
+	    return toPeoplePage().addObject("msg", "Pessoa não encontrada nos seus contatos");
 	}catch (Exception e) {
 	    return peopleController.listAll();
 	}
