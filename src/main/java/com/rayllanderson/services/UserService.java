@@ -127,6 +127,7 @@ public class UserService implements UserDetailsService {
     }
     
     private boolean currentPasswordIsValid(String currentPassword, String currentPasFromDatabase) {
+	System.out.println(passwordEncoder.matches(currentPassword, currentPasFromDatabase));
 	return this.passwordEncoder.matches(currentPassword, currentPasFromDatabase);
     }
 }

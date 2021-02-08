@@ -1,6 +1,9 @@
 package com.rayllanderson.controllers;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import com.rayllanderson.repositories.AddressRepository;
 import com.rayllanderson.repositories.FileRepository;
 import com.rayllanderson.repositories.PeopleRepository;
 import com.rayllanderson.repositories.TelephoneRepository;
+import com.rayllanderson.util.SessionUtil;
 
 @Controller
 @RequestMapping("**/infos")
@@ -34,6 +38,9 @@ public class PeopleInformationController {
 
     @Autowired
     private AddressRepository addressRepository;
+    
+    @Autowired
+    HttpServletRequest request;
 
     protected Long peopleId = null;
 
@@ -52,8 +59,10 @@ public class PeopleInformationController {
 	    addEmptyPhone(mv);
 	    addEmptyAddress(mv);
 	    return mv;
-	} catch (Exception e) {
-	    return new ModelAndView("pages/contact");
+	} catch (NoSuchElementException e) {
+	    return peopleController.listAll().addObject("msg", "Pessoa não encontrada nos seus contatos");
+	}catch (Exception e) {
+	    return peopleController.listAll();
 	}
     }
 
@@ -71,7 +80,7 @@ public class PeopleInformationController {
     }
 
     public void addPeople(Long id, ModelAndView mv) {
-	mv.addObject("people", peopleRepository.findById(id).get());
+	mv.addObject("people", peopleRepository.findById(id, SessionUtil.getUserId(request)).get());
     }
 
     private void addCurriculumText(ModelAndView mv) {

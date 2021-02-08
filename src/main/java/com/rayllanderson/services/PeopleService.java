@@ -47,6 +47,10 @@ public class PeopleService {
     public Optional<People> findById(Long id) {
 	return repository.findById(id);
     }
+    
+    public Optional<People> findById(Long id, Long userId) {
+	return repository.findById(id, userId);
+    }
 
     public boolean deleteById(Long peopleId, Long userId) {
 	try {

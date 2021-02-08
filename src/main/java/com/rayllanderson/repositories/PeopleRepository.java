@@ -1,6 +1,7 @@
 package com.rayllanderson.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,6 +19,9 @@ public interface PeopleRepository extends JpaRepository<People, Long>{
     
     @Query("from People as p where p.name like concat('%', :name, '%') and p.user.id = :id")
     List<People> findByName(@Param("name") String name, @Param("id") Long userId);
+    
+    @Query("from People as p where p.id = :id and p.user.id = :userId")
+    Optional <People> findById(@Param("id") Long id, @Param("userId") Long userId);
     
     @Query("from People as p where p.gender = :gender and p.user.id = :id")
     List<People> findByGender(@Param("gender") Gender gender, @Param("id") Long userId);
