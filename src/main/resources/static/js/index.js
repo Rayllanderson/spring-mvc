@@ -85,10 +85,10 @@ function buildPeopleTable(response) {
 			`<tr>
 					<td>${response[key].id}</td>
 					<td> <a href="/infos/${response[key].id}" class="nav-link"><span >${response[key].name}</span></a></td>
-					<td> ${response[key].gender }</td>
+					<td> ${convertGenderName(response[key].gender)}</td>
 					<td> ${response[key].profession.name}</td>
-					<td> <a class="btn btn-outline-primary" href="/pessoas/${response[key].id}"><i class="fas fa-edit"></i></a> </td>
-					<td> <a class="btn btn-outline-danger" href="/pessoas/delete/${response[key].id}"><i class="fas fa-trash-alt"></i></a> </td>
+					<td> <a class="btn btn-outline-primary" data-id="${response[key].id}" onclick="editPeople(this)"><i class="fas fa-edit"></i></a> </td>
+					<td> <a class="btn btn-outline-danger" href="/contatos/delete/${response[key].id}"><i class="fas fa-trash-alt"></i></a> </td>
 				</tr>`;
 		$("#peopleTable").append($htmlstring);
 	})

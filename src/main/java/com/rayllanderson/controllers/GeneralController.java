@@ -10,4 +10,9 @@ public class GeneralController {
     public String start() {
 	return "index.html";
     }
+    
+    @RequestMapping("/login")
+    public String login() {
+	return "/login";
+    }
 }
