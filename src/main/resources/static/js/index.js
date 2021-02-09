@@ -252,6 +252,30 @@ function changeInfosElementsColors() {
 	changeFontColor(hasResume, textCurriculum, color.green, color.red);
 }
 
+
+ function editPeople (div){
+	const peopleId = $(div).attr("data-id")
+	const url = `/contatos/${peopleId}`
+	$.ajax({
+		method : 'get',
+		url : url
+	}).done(function(response){
+		console.log(response)
+		$('#savePeopleModal').modal('show')
+		buildPeopleForm(response)
+	});
+	
+}
+
+function buildPeopleForm(response){
+	$('#peopleId').val(response.id)
+	$('#name').val(response.name);
+	$('#gender').val(response.gender);
+	$('#profession').val(response.profession.id);
+	$('#birthday').val(response.birthday);
+}
+
+
 //código copiado de https://viacep.com.br/exemplo/jquery/
 $(document).ready(function() {
 

@@ -80,16 +80,14 @@ public class PeopleController implements HandlerExceptionResolver {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView edit(@PathVariable("id") Long id) {
+    @ResponseBody
+    public People setToEdit(@PathVariable("id") Long id) {
 	Optional<People> object = service.findById(id);
-	ModelAndView mv = new ModelAndView(MAIN_VIEW_NAME);
 	if (object.isPresent()) {
-	    mv.addObject("people", object.get());
-	    mv.addObject("professions", professionRepository.findAllWithoutPeoples());
+	   return object.get();
 	} else {
-	    addEmptyPeople(mv);
+	    return new People();
 	}
-	return mv;
     }
 
     @GetMapping("/delete/{id}")
